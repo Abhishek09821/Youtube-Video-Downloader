@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YTGrab 3D — YouTube Downloader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ══════════════════════════════════════════
+   BASE
+══════════════════════════════════════════ */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    :root {
+      --red: #ff0033;
+      --red2: #ff4466;
+      --gold: #ffcc00;
+      --cyan: #00eeff;
+      --dark: #030309;
+      --card: rgba(255, 255, 255, 0.04);
+      --border: rgba(255, 255, 255, 0.10);
+      --glow-red: 0 0 30px rgba(255, 0, 51, 0.6), 0 0 80px rgba(255, 0, 51, 0.25);
+      --glow-gold: 0 0 20px rgba(255, 204, 0, 0.5), 0 0 60px rgba(255, 204, 0, 0.2);
+      --font-head: 'Orbitron', monospace;
+      --font-body: 'Rajdhani', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      background: var(--dark);
+      color: #fff;
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ══════════════════════════════════════════
+   CUSTOM CURSOR
+══════════════════════════════════════════ */
+    #cursor {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      background: var(--red);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform .1s, width .2s, height .2s, background .2s;
+      mix-blend-mode: screen;
+    }
+
+    #cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(255, 0, 51, 0.6);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform .15s ease-out, width .3s, height .3s, border-color .3s;
+    }
+
+    body:has(button:hover) #cursor,
+    body:has(a:hover) #cursor {
+      width: 20px;
+      height: 20px;
+      background: var(--gold);
+    }
+
+    body:has(button:hover) #cursor-ring,
+    body:has(a:hover) #cursor-ring {
+      width: 54px;
+      height: 54px;
+      border-color: rgba(255, 204, 0, 0.7);
+    }
+
+    /* ══════════════════════════════════════════
+   THREE.JS CANVAS
+══════════════════════════════════════════ */
+    #canvas3d {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ══════════════════════════════════════════
+   SCROLL CONTAINER
+══════════════════════════════════════════ */
+    .page {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+    }
+
+    /* ══════════════════════════════════════════
+   HERO SECTION
+══════════════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+    }
+
+    /* Scanlines overlay */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px,
+          rgba(0, 0, 0, 0.08) 2px, rgba(0, 0, 0, 0.08) 4px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ══════════════════════════════════════════
+   LOGO
+══════════════════════════════════════════ */
+    .logo-3d {
+      position: relative;
+      margin-bottom: 8px;
+      animation: logoFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes logoFloat {
+
+      0%,
+      100% {
+        transform: translateY(0) rotateX(0deg)
+      }
+
+      50% {
+        transform: translateY(-14px) rotateX(6deg)
+      }
+    }
+
+    .logo-svg {
+      width: 90px;
+      height: 90px;
+      filter: drop-shadow(var(--glow-red));
+    }
+
+    /* ══════════════════════════════════════════
+   HEADLINE
+══════════════════════════════════════════ */
+    .headline {
+      font-family: var(--font-head);
+      font-size: clamp(36px, 7vw, 90px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1;
+      text-align: center;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .headline .yt {
+      background: linear-gradient(135deg, #ff0033, #ff6644);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: none;
+      filter: drop-shadow(0 0 20px rgba(255, 0, 51, 0.7));
+    }
+
+    .headline .grab {
+      background: linear-gradient(135deg, #ffcc00, #ffee66);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 16px rgba(255, 204, 0, 0.6));
+    }
+
+    /* Glitch effect */
+    .headline::before,
+    .headline::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      font-family: var(--font-head);
+      font-size: inherit;
+      font-weight: 900;
+      letter-spacing: -2px;
+      pointer-events: none;
+    }
+
+    .headline::before {
+      color: var(--cyan);
+      clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+      transform: translateX(-3px);
+      animation: glitch1 4s infinite;
+      opacity: 0.4;
+    }
+
+    .headline::after {
+      color: var(--red);
+      clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%);
+      transform: translateX(3px);
+      animation: glitch2 4s infinite;
+      opacity: 0.3;
+    }
+
+    @keyframes glitch1 {
+
+      0%,
+      90%,
+      100% {
+        transform: translateX(0)
+      }
+
+      91% {
+        transform: translateX(-4px)
+      }
+
+      93% {
+        transform: translateX(4px)
+      }
+
+      95% {
+        transform: translateX(-2px)
+      }
+    }
+
+    @keyframes glitch2 {
+
+      0%,
+      88%,
+      100% {
+        transform: translateX(0)
+      }
+
+      89% {
+        transform: translateX(4px)
+      }
+
+      92% {
+        transform: translateX(-3px)
+      }
+
+      94% {
+        transform: translateX(2px)
+      }
+    }
+
+    .sub {
+      font-family: var(--font-body);
+      font-size: clamp(14px, 2vw, 18px);
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 52px;
+      position: relative;
+      z-index: 2;
+      animation: fadeSlide .8s ease .3s both;
+    }
+
+    /* ══════════════════════════════════════════
+   MAIN DOWNLOAD CARD
+══════════════════════════════════════════ */
+    .card {
+      width: 100%;
+      max-width: 680px;
+      background: rgba(5, 5, 20, 0.75);
+      border: 1px solid rgba(255, 0, 51, 0.25);
+      border-radius: 20px;
+      padding: 40px;
+      position: relative;
+      z-index: 2;
+      backdrop-filter: blur(30px);
+      box-shadow:
+        0 0 0 1px rgba(255, 0, 51, 0.1),
+        0 30px 80px rgba(0, 0, 0, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.07);
+      animation: cardRise .9s cubic-bezier(0.34, 1.4, 0.64, 1) .2s both;
+      transform-style: preserve-3d;
+      transition: transform .4s ease, box-shadow .4s ease;
+    }
+
+    .card:hover {
+      box-shadow:
+        0 0 0 1px rgba(255, 0, 51, 0.3),
+        0 40px 100px rgba(0, 0, 0, 0.8),
+        0 0 60px rgba(255, 0, 51, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    /* Corner accents */
+    .card::before,
+    .card::after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-color: var(--red);
+      border-style: solid;
+    }
+
+    .card::before {
+      top: -1px;
+      left: -1px;
+      border-width: 2px 0 0 2px;
+      border-radius: 4px 0 0 0;
+    }
+
+    .card::after {
+      bottom: -1px;
+      right: -1px;
+      border-width: 0 2px 2px 0;
+      border-radius: 0 0 4px 0;
+    }
+
+    @keyframes cardRise {
+      from {
+        opacity: 0;
+        transform: translateY(60px) rotateX(8deg)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg)
+      }
+    }
+
+    /* ══════════════════════════════════════════
+   URL INPUT
+══════════════════════════════════════════ */
+    .input-label {
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255, 0, 51, 0.7);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .url-row {
+      display: flex;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 6px 6px 6px 16px;
+      margin-bottom: 20px;
+      transition: border-color .3s, box-shadow .3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .url-row::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--red), transparent);
+      border-radius: 3px 0 0 3px;
+    }
+
+    .url-row:focus-within {
+      border-color: rgba(255, 0, 51, 0.5);
+      box-shadow: 0 0 0 3px rgba(255, 0, 51, 0.1), var(--glow-red);
+    }
+
+    .url-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      outline: none;
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 15px;
+      padding: 10px 0;
+      min-width: 0;
+      letter-spacing: .3px;
+    }
+
+    .url-input::placeholder {
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-paste {
+      background: rgba(255, 0, 51, 0.12);
+      border: 1px solid rgba(255, 0, 51, 0.25);
+      border-radius: 9px;
+      color: var(--red2);
+      padding: 10px 18px;
+      font-family: var(--font-head);
+      font-size: 11px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all .25s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .btn-paste:hover {
+      background: rgba(255, 0, 51, 0.25);
+      color: #fff;
+      box-shadow: var(--glow-red);
+    }
+
+    /* ══════════════════════════════════════════
+   ANALYZE BUTTON
+══════════════════════════════════════════ */
+    .btn-analyze {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: var(--font-head);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #cc0022, #ff0033, #ff4444);
+      background-size: 200% auto;
+      transition: all .35s;
+      margin-bottom: 28px;
+    }
+
+    .btn-analyze::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transform: translateX(-100%);
+      transition: transform .5s;
+    }
+
+    .btn-analyze:hover {
+      background-position: right center;
+      box-shadow: var(--glow-red), 0 15px 40px rgba(255, 0, 51, 0.3);
+      transform: translateY(-2px);
+      letter-spacing: 4px;
+    }
+
+    .btn-analyze:hover::before {
+      transform: translateX(100%);
+    }
+
+    .btn-analyze:active {
+      transform: scale(0.98);
+    }
+
+    /* ══════════════════════════════════════════
+   VIDEO INFO
+══════════════════════════════════════════ */
+    .video-info {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      background: rgba(255, 0, 51, 0.05);
+      border: 1px solid rgba(255, 0, 51, 0.15);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 24px;
+      animation: fadeSlide .4s ease;
+    }
+
+    .video-info.hidden {
+      display: none;
+    }
+
+    .thumb-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .thumb {
+      width: 108px;
+      height: 62px;
+      object-fit: cover;
+      border-radius: 8px;
+      background: rgba(255, 0, 51, 0.1);
+      border: 1px solid rgba(255, 0, 51, 0.2);
+    }
+
+    .thumb-dur {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      background: rgba(0, 0, 0, 0.85);
+      color: #fff;
+      font-family: var(--font-head);
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    .vi-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 4px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .vi-meta {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* ══════════════════════════════════════════
+   DIVIDER
+══════════════════════════════════════════ */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 26px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 0, 51, 0.3), transparent);
+    }
+
+    .divider span {
+      font-family: var(--font-head);
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255, 0, 51, 0.6);
+      white-space: nowrap;
+    }
+
+    /* ══════════════════════════════════════════
+   MODE TABS
+══════════════════════════════════════════ */
+    .tabs {
+      display: flex;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 12px;
+      padding: 5px;
+      margin-bottom: 26px;
+    }
+
+    .tab {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px;
+      border: 1px solid transparent;
+      border-radius: 9px;
+      cursor: pointer;
+      font-family: var(--font-head);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.3);
+      background: transparent;
+      transition: all .3s;
+    }
+
+    .tab:hover:not(.active) {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .tab.active {
+      background: rgba(255, 0, 51, 0.15);
+      border-color: rgba(255, 0, 51, 0.35);
+      color: var(--red2);
+      box-shadow: 0 0 20px rgba(255, 0, 51, 0.15);
+    }
+
+    /* ══════════════════════════════════════════
+   PANEL
+══════════════════════════════════════════ */
+    .panel {
+      animation: fadeSlide .3s ease;
+    }
+
+    .panel.hidden {
+      display: none;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(12px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* ══════════════════════════════════════════
+   QUALITY GRID
+══════════════════════════════════════════ */
+    .quality-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 26px;
+    }
+
+    .q-card {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 12px;
+      padding: 16px 8px 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .3s cubic-bezier(0.34, 1.4, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    .q-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(255, 0, 51, 0.15), transparent 70%);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .q-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      border-color: rgba(255, 0, 51, 0.35);
+    }
+
+    .q-card:hover::after {
+      opacity: 1;
+    }
+
+    .q-card.selected {
+      border-color: var(--red);
+      background: rgba(255, 0, 51, 0.12);
+      box-shadow: 0 0 25px rgba(255, 0, 51, 0.2), inset 0 1px 0 rgba(255, 0, 51, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .q-card.selected::before {
+      content: '✓';
+      position: absolute;
+      top: 7px;
+      right: 9px;
+      font-size: 10px;
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    .q-res {
+      font-family: var(--font-head);
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -1px;
+    }
+
+    .q-sub {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.35);
+      margin: 2px 0 7px;
+      letter-spacing: .5px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-family: var(--font-head);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .5px;
+    }
+
+    .b4k {
+      background: rgba(255, 204, 0, 0.15);
+      color: #ffcc00;
+      border: 1px solid rgba(255, 204, 0, 0.3);
+    }
+
+    .b2k {
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+
+    .bfhd {
+      background: rgba(0, 238, 255, 0.12);
+      color: #00eeff;
+      border: 1px solid rgba(0, 238, 255, 0.25);
+    }
+
+    .bhd {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .bsd {
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* ══════════════════════════════════════════
+   FORMAT ROW
+══════════════════════════════════════════ */
+    .fmt-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 26px;
+    }
+
+    .fmt-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 9px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.3);
+      color: rgba(255, 255, 255, 0.35);
+      font-family: var(--font-head);
+      font-size: 11px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all .25s;
+    }
+
+    .fmt-btn:hover:not(.active) {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .fmt-btn.active {
+      background: rgba(0, 238, 255, 0.1);
+      border-color: rgba(0, 238, 255, 0.35);
+      color: var(--cyan);
+      box-shadow: 0 0 16px rgba(0, 238, 255, 0.1);
+    }
+
+    /* ══════════════════════════════════════════
+   BITRATE GRID
+══════════════════════════════════════════ */
+    .bitrate-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 26px;
+    }
+
+    .br-card {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 12px;
+      padding: 14px 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .3s cubic-bezier(0.34, 1.4, 0.64, 1);
+      user-select: none;
+    }
+
+    .br-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255, 204, 0, 0.35);
+    }
+
+    .br-card.selected {
+      background: rgba(255, 204, 0, 0.1);
+      border-color: var(--gold);
+      box-shadow: 0 0 20px rgba(255, 204, 0, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .br-val {
+      font-family: var(--font-head);
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .br-unit {
+      font-size: 9px;
+      color: rgba(255, 255, 255, 0.35);
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    .br-desc {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.4);
+      margin-top: 4px;
+    }
+
+    /* ══════════════════════════════════════════
+   DOWNLOAD BUTTON
+══════════════════════════════════════════ */
+    .btn-dl {
+      width: 100%;
+      padding: 18px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: var(--font-head);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      transition: all .35s cubic-bezier(0.34, 1.3, 0.64, 1);
+      background-size: 200% auto;
+    }
+
+    .btn-dl-video {
+      background: linear-gradient(135deg, #1a0066, #3b82f6, #00eeff);
+    }
+
+    .btn-dl-audio {
+      background: linear-gradient(135deg, #7c2200, #ff6600, #ffcc00);
+    }
+
+    .btn-dl:hover {
+      background-position: right center;
+      transform: translateY(-3px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(59, 130, 246, 0.3);
+      letter-spacing: 4px;
+    }
+
+    .btn-dl-audio:hover {
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 204, 0, 0.3);
+    }
+
+    .btn-dl:active {
+      transform: scale(0.98);
+    }
+
+    .btn-dl::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+      transform: translateX(-100%);
+      transition: transform .5s;
+    }
+
+    .btn-dl:hover::before {
+      transform: translateX(100%);
+    }
+
+    /* ══════════════════════════════════════════
+   PROGRESS
+══════════════════════════════════════════ */
+    .progress-wrap {
+      margin-top: 22px;
+      animation: fadeSlide .4s ease;
+    }
+
+    .progress-wrap.hidden {
+      display: none;
+    }
+
+    .prog-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .prog-label {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .prog-pct {
+      font-family: var(--font-head);
+      font-size: 14px;
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    .prog-track {
+      height: 6px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.07);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .prog-fill {
+      height: 100%;
+      border-radius: 20px;
+      background: linear-gradient(90deg, #cc0022, #ff0033, #ff6644, #ffcc00);
+      background-size: 300% auto;
+      animation: gradMove 2s linear infinite;
+      transition: width .2s linear;
+      position: relative;
+    }
+
+    .prog-fill::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      animation: shimmer 1.4s ease-in-out infinite;
+    }
+
+    .prog-info {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.3);
+      margin-top: 6px;
+      text-align: right;
+      font-family: var(--font-head);
+      letter-spacing: 1px;
+    }
+
+    @keyframes gradMove {
+      to {
+        background-position: -300% center;
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        transform: translateX(-100%)
+      }
+
+      100% {
+        transform: translateX(300%)
+      }
+    }
+
+    /* ══════════════════════════════════════════
+   FEATURES SECTION
+══════════════════════════════════════════ */
+    .features-section {
+      padding: 80px 20px 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(22px, 4vw, 40px);
+      font-weight: 900;
+      letter-spacing: -1px;
+      text-align: center;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #fff, rgba(255, 255, 255, 0.5));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-sub {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.35);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 52px;
+    }
+
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      width: 100%;
+      max-width: 860px;
+    }
+
+    .feat-card {
+      background: rgba(5, 5, 20, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 28px 22px;
+      position: relative;
+      overflow: hidden;
+      transition: all .35s cubic-bezier(0.34, 1.4, 0.64, 1);
+      cursor: default;
+    }
+
+    .feat-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% -20%, var(--accent, rgba(255, 0, 51, 0.12)), transparent 70%);
+      opacity: 0;
+      transition: opacity .4s;
+    }
+
+    .feat-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(255, 0, 51, 0.2);
+    }
+
+    .feat-card:hover::before {
+      opacity: 1;
+    }
+
+    .feat-card:nth-child(2) {
+      --accent: rgba(0, 238, 255, 0.12);
+    }
+
+    .feat-card:nth-child(2):hover {
+      border-color: rgba(0, 238, 255, 0.2);
+    }
+
+    .feat-card:nth-child(3) {
+      --accent: rgba(255, 204, 0, 0.1);
+    }
+
+    .feat-card:nth-child(3):hover {
+      border-color: rgba(255, 204, 0, 0.2);
+    }
+
+    .feat-card:nth-child(4) {
+      --accent: rgba(168, 85, 247, 0.1);
+    }
+
+    .feat-card:nth-child(4):hover {
+      border-color: rgba(168, 85, 247, 0.2);
+    }
+
+    .feat-card:nth-child(5) {
+      --accent: rgba(16, 185, 129, 0.1);
+    }
+
+    .feat-card:nth-child(5):hover {
+      border-color: rgba(16, 185, 129, 0.2);
+    }
+
+    .feat-card:nth-child(6) {
+      --accent: rgba(255, 102, 0, 0.1);
+    }
+
+    .feat-card:nth-child(6):hover {
+      border-color: rgba(255, 102, 0, 0.2);
+    }
+
+    .feat-ico {
+      font-size: 30px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .feat-name {
+      font-family: var(--font-head);
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+      letter-spacing: .5px;
+    }
+
+    .feat-desc {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.38);
+      line-height: 1.6;
+    }
+
+    /* ══════════════════════════════════════════
+   STATS BAR
+══════════════════════════════════════════ */
+    .stats-bar {
+      display: flex;
+      gap: 0;
+      width: 100%;
+      max-width: 860px;
+      background: rgba(5, 5, 20, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 60px;
+    }
+
+    .stat {
+      flex: 1;
+      padding: 24px 16px;
+      text-align: center;
+      border-right: 1px solid rgba(255, 255, 255, 0.07);
+      transition: background .3s;
+    }
+
+    .stat:last-child {
+      border-right: none;
+    }
+
+    .stat:hover {
+      background: rgba(255, 0, 51, 0.05);
+    }
+
+    .stat-val {
+      font-family: var(--font-head);
+      font-size: 26px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--red), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .stat-name {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.35);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
+    .footer {
+      text-align: center;
+      padding: 30px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.2);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ══════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════ */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      background: rgba(5, 5, 20, 0.95);
+      border: 1px solid rgba(255, 0, 51, 0.35);
+      border-radius: 12px;
+      padding: 14px 28px;
+      color: #fff;
+      font-family: var(--font-head);
+      font-size: 12px;
+      letter-spacing: 2px;
+      z-index: 9999;
+      transition: transform .45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: var(--glow-red), 0 20px 50px rgba(0, 0, 0, 0.5);
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ══════════════════════════════════════════
+   SPINNER
+══════════════════════════════════════════ */
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      border-top-color: var(--red);
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    /* ══════════════════════════════════════════
+   SCROLLBAR
+══════════════════════════════════════════ */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 0, 51, 0.4);
+      border-radius: 10px;
+    }
+
+    /* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+    @media(max-width:640px) {
+      .card {
+        padding: 26px 20px;
+      }
+
+      .quality-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .bitrate-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .feat-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stats-bar {
+        flex-wrap: wrap;
+      }
+
+      .stat {
+        min-width: 50%;
+      }
+    }
+
+    @media(max-width:400px) {
+      .feat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Custom cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- Three.js 3D canvas -->
+  <canvas id="canvas3d"></canvas>
+
+  <div class="page">
+
+    <!-- ═══ HERO ═══ -->
+    <section class="hero">
+
+      <div class="logo-3d">
+        <svg class="logo-svg" viewBox="0 0 90 90" fill="none">
+          <defs>
+            <linearGradient id="lg1" x1="0" y1="0" x2="90" y2="90" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#ff0033" />
+              <stop offset="1" stop-color="#cc0000" />
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="b" />
+              <feMerge>
+                <feMergeNode in="b" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <rect width="90" height="90" rx="20" fill="url(#lg1)" filter="url(#glow)" />
+          <path d="M30 25L65 45L30 65V25Z" fill="white" />
+          <rect x="10" y="72" width="70" height="3" rx="1.5" fill="rgba(255,255,255,0.3)" />
+        </svg>
+      </div>
+
+      <h1 class="headline" data-text="YTGRAB">
+        <span class="yt">YT</span><span class="grab">GRAB</span>
+      </h1>
+      <p class="sub">3D YouTube Downloader · 4K · MP3 · All Formats</p>
+
+      <!-- MAIN CARD -->
+      <div class="card" id="mainCard">
+
+        <!-- URL -->
+        <label class="input-label" for="urlInput">⬡ YouTube URL</label>
+        <div class="url-row" id="urlRow">
+          <input id="urlInput" class="url-input" type="text" placeholder="https://youtube.com/watch?v=…"
+            autocomplete="off" spellcheck="false" />
+          <button class="btn-paste" onclick="pasteURL()">⎘ PASTE</button>
+        </div>
+
+        <button class="btn-analyze" id="analyzeBtn" onclick="analyzeVideo()">
+          <span id="analyzeTxt">▶ &nbsp;ANALYZE VIDEO</span>
+        </button>
+
+        <!-- Video info -->
+        <div class="video-info hidden" id="videoInfo">
+          <div class="thumb-wrap">
+            <img id="vThumb" class="thumb" src="" alt="" />
+            <span class="thumb-dur" id="vDur">0:00</span>
+          </div>
+          <div>
+            <div class="vi-title" id="vTitle">Loading…</div>
+            <div class="vi-meta" id="vMeta">—</div>
+          </div>
+        </div>
+
+        <div class="divider"><span>⬡ Select Download Options ⬡</span></div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+          <button class="tab active" id="tabV" onclick="setMode('video')">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+              <rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5" />
+              <path d="M8 8l4 2-4 2V8z" fill="currentColor" />
+            </svg>
+            VIDEO + AUDIO
+          </button>
+          <button class="tab" id="tabA" onclick="setMode('audio')">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+              <path d="M8 16a2 2 0 100-4 2 2 0 000 4z" stroke="currentColor" stroke-width="1.5" />
+              <path d="M10 14V4l6 2v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+            AUDIO ONLY
+          </button>
+        </div>
+
+        <!-- VIDEO PANEL -->
+        <div class="panel" id="panelV">
+          <div class="input-label" style="margin-bottom:12px">⬡ Quality</div>
+          <div class="quality-grid">
+            <div class="q-card" onclick="selQ(this,'2160')">
+              <div class="q-res">2160p</div>
+              <div class="q-sub">4K Ultra HD</div>
+              <span class="badge b4k">4K HDR</span>
+            </div>
+            <div class="q-card" onclick="selQ(this,'1440')">
+              <div class="q-res">1440p</div>
+              <div class="q-sub">Quad HD</div>
+              <span class="badge b2k">2K</span>
+            </div>
+            <div class="q-card selected" onclick="selQ(this,'1080')">
+              <div class="q-res">1080p</div>
+              <div class="q-sub">Full HD</div>
+              <span class="badge bfhd">FHD</span>
+            </div>
+            <div class="q-card" onclick="selQ(this,'720')">
+              <div class="q-res">720p</div>
+              <div class="q-sub">HD Ready</div>
+              <span class="badge bhd">HD</span>
+            </div>
+            <div class="q-card" onclick="selQ(this,'480')">
+              <div class="q-res">480p</div>
+              <div class="q-sub">Standard</div>
+              <span class="badge bsd">SD</span>
+            </div>
+            <div class="q-card" onclick="selQ(this,'360')">
+              <div class="q-res">360p</div>
+              <div class="q-sub">Low</div>
+              <span class="badge bsd">LD</span>
+            </div>
+          </div>
+
+          <div class="input-label" style="margin-bottom:10px">⬡ Format</div>
+          <div class="fmt-row">
+            <button class="fmt-btn active" onclick="selFmt(this,'mp4','v')">MP4</button>
+            <button class="fmt-btn" onclick="selFmt(this,'mkv','v')">MKV</button>
+            <button class="fmt-btn" onclick="selFmt(this,'webm','v')">WEBM</button>
+            <button class="fmt-btn" onclick="selFmt(this,'avi','v')">AVI</button>
+          </div>
+
+          <button class="btn-dl btn-dl-video" onclick="startDL('video')">
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+              <path d="M10 3v10M6 9l4 4 4-4M4 17h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            DOWNLOAD VIDEO
+          </button>
+        </div>
+
+        <!-- AUDIO PANEL -->
+        <div class="panel hidden" id="panelA">
+          <div class="input-label" style="margin-bottom:12px">⬡ Bitrate</div>
+          <div class="bitrate-grid">
+            <div class="br-card" onclick="selBR(this,'128')">
+              <div class="br-val">128</div>
+              <div class="br-unit">KBPS</div>
+              <div class="br-desc">Good</div>
+            </div>
+            <div class="br-card" onclick="selBR(this,'192')">
+              <div class="br-val">192</div>
+              <div class="br-unit">KBPS</div>
+              <div class="br-desc">Better</div>
+            </div>
+            <div class="br-card selected" onclick="selBR(this,'256')">
+              <div class="br-val">256</div>
+              <div class="br-unit">KBPS</div>
+              <div class="br-desc">High</div>
+            </div>
+            <div class="br-card" onclick="selBR(this,'320')">
+              <div class="br-val">320</div>
+              <div class="br-unit">KBPS</div>
+              <div class="br-desc">Best</div>
+            </div>
+          </div>
+
+          <div class="input-label" style="margin-bottom:10px;margin-top:22px">⬡ Format</div>
+          <div class="fmt-row" style="margin-bottom:26px">
+            <button class="fmt-btn active" onclick="selFmt(this,'mp3','a')">MP3</button>
+            <button class="fmt-btn" onclick="selFmt(this,'m4a','a')">M4A</button>
+            <button class="fmt-btn" onclick="selFmt(this,'ogg','a')">OGG</button>
+            <button class="fmt-btn" onclick="selFmt(this,'flac','a')">FLAC</button>
+          </div>
+
+          <button class="btn-dl btn-dl-audio" onclick="startDL('audio')">
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+              <path d="M8 16a2 2 0 100-4 2 2 0 000 4z" stroke="currentColor" stroke-width="2" />
+              <path d="M10 14V4l6 2v3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            EXTRACT AUDIO
+          </button>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-wrap hidden" id="progWrap">
+          <div class="prog-head">
+            <span class="prog-label" id="progLabel">Preparing…</span>
+            <span class="prog-pct" id="progPct">0%</span>
+          </div>
+          <div class="prog-track">
+            <div class="prog-fill" id="progFill" style="width:0%"></div>
+          </div>
+          <div class="prog-info" id="progInfo"></div>
+        </div>
+
+      </div><!-- /card -->
+    </section>
+
+    <!-- ═══ STATS BAR ═══ -->
+    <section style="display:flex;justify-content:center;padding:0 20px;position:relative;z-index:2;">
+      <div class="stats-bar">
+        <div class="stat"><span class="stat-val">4K</span><span class="stat-name">Max Quality</span></div>
+        <div class="stat"><span class="stat-val">320</span><span class="stat-name">kbps Audio</span></div>
+        <div class="stat"><span class="stat-val">8</span><span class="stat-name">Formats</span></div>
+        <div class="stat"><span class="stat-val">∞</span><span class="stat-name">Downloads</span></div>
+      </div>
+    </section>
+
+    <!-- ═══ FEATURES ═══ -->
+    <section class="features-section">
+      <h2 class="section-title">WHY YTGRAB?</h2>
+      <p class="section-sub">⬡ Engineered for power users ⬡</p>
+
+      <div class="feat-grid">
+        <div class="feat-card">
+          <span class="feat-ico">⚡</span>
+          <div class="feat-name">BLAZING FAST</div>
+          <div class="feat-desc">Multi-threaded engine downloads at maximum available bandwidth with zero throttling.
+          </div>
+        </div>
+        <div class="feat-card">
+          <span class="feat-ico">🎯</span>
+          <div class="feat-name">4K / HDR</div>
+          <div class="feat-desc">Download up to 2160p Ultra HD with HDR10 and Dolby Vision support.</div>
+        </div>
+        <div class="feat-card">
+          <span class="feat-ico">🎵</span>
+          <div class="feat-name">LOSSLESS AUDIO</div>
+          <div class="feat-desc">Extract audio at 320kbps MP3 or lossless FLAC with full metadata tags.</div>
+        </div>
+        <div class="feat-card">
+          <span class="feat-ico">📦</span>
+          <div class="feat-name">ALL FORMATS</div>
+          <div class="feat-desc">MP4, MKV, WebM, AVI for video. MP3, M4A, OGG, FLAC for audio.</div>
+        </div>
+        <div class="feat-card">
+          <span class="feat-ico">🔐</span>
+          <div class="feat-name">100% PRIVATE</div>
+          <div class="feat-desc">Self-hosted. No cloud. No tracking. Your downloads stay on your machine.</div>
+        </div>
+        <div class="feat-card">
+          <span class="feat-ico">🛠</span>
+          <div class="feat-name">yt-dlp POWERED</div>
+          <div class="feat-desc">Built on the industry standard yt-dlp engine — always updated, always reliable.</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      YTGrab · Built with yt-dlp &amp; Three.js · Personal use only · Respect copyright
+    </footer>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <span id="toastIco"></span>
+    <span id="toastMsg"></span>
+  </div>
+
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="three-bg.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
