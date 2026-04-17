@@ -15,8 +15,8 @@ const S = {
 
 /* ── CURSOR ─────────────────────────────────── */
 const cur  = document.getElementById('cursor');
-const curR = document.getElementById('cursor-ring');
-document.addEventListener('mousemove', e => {
+const curR = document.getElementById('cursor-ring');   //used for making that color changing rround cursor 
+document.addEventListener('mousemove', e => {      
   cur.style.left  = e.clientX + 'px';
   cur.style.top   = e.clientY + 'px';
   curR.style.left = e.clientX + 'px';
