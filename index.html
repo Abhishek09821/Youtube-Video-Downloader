@@ -6,14 +6,7 @@
 <title>BLOSOM — YouTube Downloader</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --rose:#FF2D6B;--rose-light:#FF6FA3;--petal:#FFB3CC;
-    --violet:#7B2FBE;--violet-light:#A855F7;
-    --blue:#1E40AF;--blue-light:#60A5FA;
-    --deep:#0F0A1E;--surface:#1A1030;--surface2:#221542;
-    --text:#F8F0FF;--muted:#C4B5D4;
-    --glass:rgba(255,255,255,0.06);--glass-border:rgba(255,180,220,0.2);
-  }
+  :root{--rose:#FF2D6B;--rose-light:#FF6FA3;--petal:#FFB3CC;--violet:#7B2FBE;--violet-light:#A855F7;--blue:#1E40AF;--blue-light:#60A5FA;--deep:#0F0A1E;--surface:#1A1030;--surface2:#221542;--text:#F8F0FF;--muted:#C4B5D4;--glass:rgba(255,255,255,0.06);--glass-border:rgba(255,180,220,0.2);}
   *{margin:0;padding:0;box-sizing:border-box;}
   body{font-family:'DM Sans',sans-serif;background:var(--deep);color:var(--text);min-height:100vh;overflow-x:hidden;}
   .bg-layer{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 20% 20%,rgba(123,47,190,.35) 0%,transparent 60%),radial-gradient(ellipse 70% 50% at 80% 80%,rgba(255,45,107,.3) 0%,transparent 60%),radial-gradient(ellipse 60% 70% at 60% 10%,rgba(30,64,175,.25) 0%,transparent 60%),linear-gradient(135deg,#0F0A1E 0%,#1A0D35 50%,#0A1628 100%);}
@@ -54,6 +47,7 @@
   .meta-tag.dur{background:rgba(123,47,190,.15);color:var(--violet-light);}
   .meta-tag.view{background:rgba(96,165,250,.12);color:var(--blue-light);}
   .meta-tag.ch{background:rgba(255,45,107,.1);color:var(--rose-light);}
+  .meta-tag.sub{background:rgba(16,185,129,.12);color:#34D399;}
   .tabs{display:flex;gap:6px;margin-bottom:24px;background:rgba(0,0,0,.2);border-radius:14px;padding:5px;}
   .tab{flex:1;padding:10px;border:none;background:none;border-radius:10px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .25s ease;display:flex;align-items:center;justify-content:center;gap:7px;}
   .tab.active{background:linear-gradient(135deg,rgba(255,45,107,.2),rgba(123,47,190,.2));color:var(--text);border:1px solid rgba(255,107,163,.25);box-shadow:0 2px 10px rgba(255,45,107,.15);}
@@ -67,7 +61,7 @@
   .q-card.selected::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--rose),var(--violet-light));}
   .q-label{font-size:18px;font-weight:700;color:var(--text);margin-bottom:2px;}
   .q-card.selected .q-label{color:var(--rose-light);}
-  .q-sub{font-size:10px;color:var(--muted);margin-bottom:6px;}
+  .q-sub{font-size:10px;color:var(--muted);margin-bottom:5px;}
   .q-size{font-size:10px;font-weight:600;color:rgba(255,180,220,.45);background:rgba(255,180,220,.07);border-radius:5px;padding:2px 6px;display:inline-block;}
   .q-card.selected .q-size{color:var(--petal);}
   .q-badge{position:absolute;top:7px;right:7px;background:linear-gradient(135deg,var(--rose),var(--violet));color:white;font-size:9px;font-weight:700;padding:2px 6px;border-radius:6px;}
@@ -82,32 +76,55 @@
   .aq-kbps{font-size:20px;font-weight:700;color:var(--text);}
   .aq-card.selected .aq-kbps{color:var(--blue-light);}
   .aq-tag{font-size:11px;color:var(--muted);margin-top:2px;}
-  .sub-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
-  .sub-toggle{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;border:1px solid rgba(255,180,220,.12);background:rgba(255,255,255,.03);cursor:pointer;transition:all .2s;}
-  .sub-toggle.on{border-color:rgba(255,107,163,.35);background:rgba(255,45,107,.08);}
-  .toggle-dot{width:36px;height:20px;border-radius:10px;position:relative;background:rgba(255,255,255,.1);transition:background .3s;flex-shrink:0;}
-  .toggle-dot::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--muted);transition:all .3s;}
-  .sub-toggle.on .toggle-dot{background:linear-gradient(135deg,var(--rose),var(--violet));}
-  .sub-toggle.on .toggle-dot::after{left:19px;background:white;}
-  .sub-title{font-size:14px;font-weight:500;color:var(--text);}
-  .sub-desc{font-size:12px;color:var(--muted);margin-top:2px;}
-  .sub-format-row{display:flex;gap:8px;margin-bottom:20px;}
-  .sfmt{padding:7px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;border:1px solid rgba(255,180,220,.15);background:rgba(255,255,255,.03);color:var(--muted);font-family:'DM Sans',sans-serif;}
+
+  /* ── SUBTITLE TAB ── */
+  .sub-lang-row{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
+  .lang-btn{padding:9px 18px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;border:1px solid rgba(255,180,220,.15);background:rgba(255,255,255,.04);color:var(--muted);transition:all .2s;}
+  .lang-btn.selected{border-color:rgba(255,107,163,.45);background:rgba(255,45,107,.12);color:var(--rose-light);}
+  .sub-action-row{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+  .sub-view-btn{flex:1;padding:13px;border-radius:14px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:white;background:linear-gradient(135deg,var(--violet),var(--violet-light));box-shadow:0 4px 20px rgba(123,47,190,.35);transition:all .25s;}
+  .sub-view-btn:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(123,47,190,.45);}
+  .sub-view-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+  .sub-dl-btn{padding:13px 20px;border-radius:14px;border:1px solid rgba(255,180,220,.2);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:var(--petal);background:rgba(255,45,107,.08);transition:all .25s;white-space:nowrap;}
+  .sub-dl-btn:hover{background:rgba(255,45,107,.16);}
+  .sub-dl-btn:disabled{opacity:.5;cursor:not-allowed;}
+
+  /* Subtitle Viewer */
+  .sub-viewer{display:none;margin-top:4px;border-radius:18px;border:1px solid rgba(168,85,247,.25);background:rgba(123,47,190,.05);overflow:hidden;}
+  .sub-viewer.visible{display:block;}
+  .sub-viewer-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid rgba(168,85,247,.15);background:rgba(123,47,190,.08);}
+  .sub-viewer-title{font-size:13px;font-weight:600;color:var(--violet-light);display:flex;align-items:center;gap:8px;}
+  .sub-viewer-actions{display:flex;gap:8px;}
+  .sv-action-btn{background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.25);color:var(--violet-light);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+  .sv-action-btn:hover{background:rgba(168,85,247,.25);}
+  .sub-lines{max-height:340px;overflow-y:auto;padding:12px;}
+  .sub-lines::-webkit-scrollbar{width:4px;}
+  .sub-lines::-webkit-scrollbar-track{background:rgba(255,255,255,.03);}
+  .sub-lines::-webkit-scrollbar-thumb{background:rgba(168,85,247,.3);border-radius:2px;}
+  .sub-line{display:flex;gap:12px;padding:8px 10px;border-radius:10px;transition:background .15s;margin-bottom:2px;}
+  .sub-line:hover{background:rgba(168,85,247,.08);}
+  .sub-time{font-size:11px;color:var(--violet-light);font-weight:600;flex-shrink:0;min-width:40px;padding-top:2px;font-family:'DM Sans',sans-serif;}
+  .sub-text{font-size:14px;color:var(--text);line-height:1.55;}
+  .sub-loading{display:flex;align-items:center;justify-content:center;gap:12px;padding:40px 20px;color:var(--muted);font-size:14px;}
+  .sub-spinner{width:20px;height:20px;border:2px solid rgba(168,85,247,.2);border-top-color:var(--violet-light);border-radius:50%;animation:spin .8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .sub-empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px;}
+  .sub-fmt-row{display:flex;gap:8px;margin-bottom:16px;}
+  .sfmt{padding:7px 14px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;border:1px solid rgba(255,180,220,.15);background:rgba(255,255,255,.03);color:var(--muted);font-family:'DM Sans',sans-serif;}
   .sfmt.on{background:rgba(123,47,190,.15);border-color:rgba(168,85,247,.4);color:var(--violet-light);}
+
   /* Download button row */
   .dl-btn-row{display:flex;gap:10px;}
   .dl-btn{flex:1;padding:16px;border-radius:16px;border:none;cursor:pointer;font-family:'Playfair Display',serif;font-size:18px;font-weight:700;letter-spacing:1px;color:white;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--rose) 0%,#C026D3 50%,var(--violet) 100%);box-shadow:0 8px 32px rgba(255,45,107,.4),0 0 0 1px rgba(255,255,255,.08) inset;transition:all .3s ease;}
-  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 16px 48px rgba(255,45,107,.5);}
+  .dl-btn:hover{transform:translateY(-2px);}
   .dl-btn:active{transform:translateY(0);}
   .dl-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
   .dl-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);pointer-events:none;}
   .btn-shimmer{position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);animation:shimmer 3s ease-in-out infinite;}
   @keyframes shimmer{0%{left:-100%}50%,100%{left:160%}}
-  /* Stop button */
   .stop-btn{display:none;padding:16px 22px;border-radius:16px;border:1px solid rgba(239,68,68,.4);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;color:#f87171;background:rgba(239,68,68,.12);transition:all .2s;white-space:nowrap;}
   .stop-btn:hover{background:rgba(239,68,68,.25);}
   .stop-btn.visible{display:block;}
-  /* Progress */
   .progress-wrap{margin-top:20px;display:none;}
   .progress-wrap.visible{display:block;}
   .prog-label{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:8px;}
@@ -119,44 +136,33 @@
   .dl-ready-text{font-size:14px;color:#4ade80;font-weight:500;}
   .save-btn{background:linear-gradient(135deg,#16a34a,#059669);border:none;color:white;padding:10px 22px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;display:inline-block;transition:all .2s;}
   .save-btn:hover{transform:translateY(-1px);}
-  /* Error box with close */
   .error-box{display:none;margin-top:16px;border-radius:14px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.22);overflow:hidden;}
   .error-box.visible{display:block;}
   .error-main{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:14px 16px;}
   .error-msg{font-size:13px;color:#f87171;flex:1;line-height:1.5;}
   .error-close{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#f87171;border-radius:8px;padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;flex-shrink:0;transition:all .2s;}
   .error-close:hover{background:rgba(239,68,68,.3);}
-  /* AI subtitle suggestion */
-  .ai-sub-box{display:none;padding:16px;border-top:1px solid rgba(239,68,68,.12);background:rgba(123,47,190,.07);}
-  .ai-sub-box.visible{display:block;}
-  .ai-sub-title{font-size:13px;font-weight:600;color:var(--violet-light);margin-bottom:8px;}
-  .ai-sub-desc{font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.65;}
-  .ai-sub-actions{display:flex;gap:8px;flex-wrap:wrap;}
-  .ai-btn{padding:9px 20px;border-radius:10px;border:none;cursor:pointer;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;transition:all .2s;}
-  .ai-btn.yes{background:linear-gradient(135deg,var(--violet),var(--violet-light));color:white;box-shadow:0 4px 14px rgba(123,47,190,.35);}
-  .ai-btn.yes:hover{transform:translateY(-1px);}
-  .ai-btn.no{background:rgba(255,255,255,.05);border:1px solid rgba(255,180,220,.15);color:var(--muted);}
-  .ai-btn.no:hover{background:rgba(255,255,255,.1);}
   .server-status{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin-bottom:20px;}
   .status-dot{width:8px;height:8px;border-radius:50%;background:#6b7280;}
   .status-dot.online{background:#4ade80;box-shadow:0 0 8px rgba(74,222,128,.5);}
   .status-dot.offline{background:#f87171;}
-  .notif{position:fixed;top:24px;right:24px;z-index:100;background:rgba(26,16,48,.95);backdrop-filter:blur(20px);border:1px solid rgba(255,107,163,.3);border-radius:14px;padding:14px 20px;font-size:14px;color:var(--text);box-shadow:0 20px 60px rgba(0,0,0,.5);transform:translateY(-10px);opacity:0;transition:all .3s ease;pointer-events:none;max-width:320px;}
+  .notif{position:fixed;top:24px;right:24px;z-index:100;background:rgba(26,16,48,.95);backdrop-filter:blur(20px);border:1px solid rgba(255,107,163,.3);border-radius:14px;padding:14px 20px;font-size:14px;color:var(--text);box-shadow:0 20px 60px rgba(0,0,0,.5);transform:translateY(-10px);opacity:0;transition:all .3s ease;pointer-events:none;max-width:340px;}
   .notif.show{transform:translateY(0);opacity:1;}
   .footer{text-align:center;padding:24px 0;font-size:12px;color:rgba(196,181,212,.4);}
-  @media(max-width:600px){.quality-grid{grid-template-columns:repeat(2,1fr);}.sub-options{grid-template-columns:1fr;}}
+  .size-hint{display:none;font-size:12px;color:var(--petal);margin:-14px 0 20px;padding:8px 14px;background:rgba(255,180,220,.05);border-radius:10px;border:1px solid rgba(255,180,220,.1);}
+  .size-hint.visible{display:block;}
+  @media(max-width:600px){.quality-grid{grid-template-columns:repeat(2,1fr);}}
 </style>
 </head>
 <body>
 <div class="bg-layer"></div>
 <div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
 <div id="petals"></div>
-
 <div class="wrapper">
   <div class="header">
     <div class="logo-badge"><div class="logo-dot"></div><span class="logo-text">BLOSOM Studio</span></div>
     <h1 class="title">Video Bloom</h1>
-    <p class="subtitle">Download videos, audio &amp; subtitles in stunning quality</p>
+    <p class="subtitle">Download videos, audio &amp; view subtitles instantly</p>
   </div>
 
   <div class="card" id="mainCard">
@@ -181,6 +187,7 @@
           <span class="meta-tag ch" id="vidCh">—</span>
           <span class="meta-tag dur" id="vidDur">—</span>
           <span class="meta-tag view" id="vidView">—</span>
+          <span class="meta-tag sub" id="vidSubTag" style="display:none">📝 Captions</span>
         </div>
       </div>
     </div>
@@ -199,21 +206,18 @@
 
     <!-- VIDEO PANEL -->
     <div class="panel active" id="tab-video">
-      <div class="section-label">Select Quality — file size (per hour of video)</div>
+      <div class="section-label">Select Quality</div>
       <div class="quality-grid">
-        <div class="q-card" data-q="2160" onclick="selectQ(this)"><div class="q-badge">4K</div><div class="q-label">2160p</div><div class="q-sub">Ultra HD</div><div class="q-size" id="sz-2160">~14 GB/hr</div></div>
-        <div class="q-card" data-q="1440" onclick="selectQ(this)"><div class="q-badge">2K</div><div class="q-label">1440p</div><div class="q-sub">Quad HD</div><div class="q-size" id="sz-1440">~7 GB/hr</div></div>
-        <div class="q-card selected" data-q="1080" onclick="selectQ(this)"><div class="q-label">1080p</div><div class="q-sub">Full HD</div><div class="q-size" id="sz-1080">~3 GB/hr</div></div>
-        <div class="q-card" data-q="720" onclick="selectQ(this)"><div class="q-label">720p</div><div class="q-sub">HD Ready</div><div class="q-size" id="sz-720">~1.5 GB/hr</div></div>
-        <div class="q-card" data-q="480" onclick="selectQ(this)"><div class="q-label">480p</div><div class="q-sub">Standard</div><div class="q-size" id="sz-480">~700 MB/hr</div></div>
-        <div class="q-card" data-q="360" onclick="selectQ(this)"><div class="q-label">360p</div><div class="q-sub">Low</div><div class="q-size" id="sz-360">~450 MB/hr</div></div>
-        <div class="q-card" data-q="240" onclick="selectQ(this)"><div class="q-label">240p</div><div class="q-sub">Mobile</div><div class="q-size" id="sz-240">~250 MB/hr</div></div>
-        <div class="q-card" data-q="144" onclick="selectQ(this)"><div class="q-label">144p</div><div class="q-sub">Minimal</div><div class="q-size" id="sz-144">~100 MB/hr</div></div>
+        <div class="q-card" data-q="2160" onclick="selectQ(this)"><div class="q-badge">4K</div><div class="q-label">2160p</div><div class="q-sub">Ultra HD</div><div class="q-size" id="sz-2160">—</div></div>
+        <div class="q-card" data-q="1440" onclick="selectQ(this)"><div class="q-badge">2K</div><div class="q-label">1440p</div><div class="q-sub">Quad HD</div><div class="q-size" id="sz-1440">—</div></div>
+        <div class="q-card selected" data-q="1080" onclick="selectQ(this)"><div class="q-label">1080p</div><div class="q-sub">Full HD</div><div class="q-size" id="sz-1080">—</div></div>
+        <div class="q-card" data-q="720" onclick="selectQ(this)"><div class="q-label">720p</div><div class="q-sub">HD Ready</div><div class="q-size" id="sz-720">—</div></div>
+        <div class="q-card" data-q="480" onclick="selectQ(this)"><div class="q-label">480p</div><div class="q-sub">Standard</div><div class="q-size" id="sz-480">—</div></div>
+        <div class="q-card" data-q="360" onclick="selectQ(this)"><div class="q-label">360p</div><div class="q-sub">Low</div><div class="q-size" id="sz-360">—</div></div>
+        <div class="q-card" data-q="240" onclick="selectQ(this)"><div class="q-label">240p</div><div class="q-sub">Mobile</div><div class="q-size" id="sz-240">—</div></div>
+        <div class="q-card" data-q="144" onclick="selectQ(this)"><div class="q-label">144p</div><div class="q-sub">Minimal</div><div class="q-size" id="sz-144">—</div></div>
       </div>
-      <!-- Dynamic size estimate after Analyse -->
-      <div id="sizeHint" style="display:none;font-size:12px;color:var(--petal);margin:-16px 0 20px;padding:8px 14px;background:rgba(255,180,220,.06);border-radius:10px;border:1px solid rgba(255,180,220,.12);">
-        📦 Selected quality estimated size: <strong id="sizeHintVal">—</strong>
-      </div>
+      <div class="size-hint" id="sizeHint">📦 Estimated size for selected quality: <strong id="sizeHintVal">—</strong></div>
       <div class="section-label">Format</div>
       <div class="format-row">
         <button class="fmt-btn selected" onclick="selectFmt(this)">mp4</button>
@@ -243,87 +247,107 @@
       </div>
     </div>
 
-    <!-- SUBTITLE PANEL -->
+    <!-- SUBTITLE PANEL — completely redesigned -->
     <div class="panel" id="tab-subtitle">
-      <div class="section-label">Languages</div>
-      <div class="sub-options">
-        <div class="sub-toggle on" data-lang="hi" onclick="toggleSub(this)">
-          <div class="toggle-dot"></div>
-          <div><div class="sub-title">🇮🇳 Hindi</div><div class="sub-desc">हिंदी में सबटाइटल</div></div>
-        </div>
-        <div class="sub-toggle on" data-lang="en" onclick="toggleSub(this)">
-          <div class="toggle-dot"></div>
-          <div><div class="sub-title">🇺🇸 English</div><div class="sub-desc">Full English subtitles</div></div>
-        </div>
-        <div class="sub-toggle" data-lang="lyrics" onclick="toggleSub(this)">
-          <div class="toggle-dot"></div>
-          <div><div class="sub-title">🎵 Lyrics Mode</div><div class="sub-desc">Song lyrics + timestamps</div></div>
-        </div>
-        <div class="sub-toggle on" data-auto="1" onclick="toggleSub(this)">
-          <div class="toggle-dot"></div>
-          <div><div class="sub-title">🤖 Auto-generated</div><div class="sub-desc">AI transcription fallback</div></div>
-        </div>
+      <div class="section-label">Language</div>
+      <div class="sub-lang-row">
+        <button class="lang-btn selected" data-lang="en" onclick="selectLang(this)">🇺🇸 English</button>
+        <button class="lang-btn" data-lang="hi" onclick="selectLang(this)">🇮🇳 Hindi</button>
+        <button class="lang-btn" data-lang="en,hi" onclick="selectLang(this)">🌐 Both</button>
+        <button class="lang-btn" data-lang="auto" onclick="selectLang(this)">🤖 Auto-detect</button>
       </div>
-      <div class="section-label">Format</div>
-      <div class="sub-format-row">
+
+      <div class="section-label">Download Format</div>
+      <div class="sub-fmt-row">
         <button class="sfmt on" onclick="selectSFmt(this)">srt</button>
         <button class="sfmt" onclick="selectSFmt(this)">vtt</button>
-        <button class="sfmt" onclick="selectSFmt(this)">ass</button>
         <button class="sfmt" onclick="selectSFmt(this)">txt</button>
+      </div>
+
+      <div class="sub-action-row">
+        <button class="sub-view-btn" id="subViewBtn" onclick="viewSubtitles()">
+          👁 View Subtitles / Lyrics
+        </button>
+        <button class="sub-dl-btn" id="subDlBtn" onclick="downloadSubtitle()">
+          💾 Download File
+        </button>
+      </div>
+
+      <!-- In-app Subtitle Viewer -->
+      <div class="sub-viewer" id="subViewer">
+        <div class="sub-viewer-header">
+          <div class="sub-viewer-title">
+            <span>📝</span>
+            <span id="subViewerTitle">Subtitles</span>
+            <span id="subViewerCount" style="font-size:11px;color:var(--muted);font-weight:400"></span>
+          </div>
+          <div class="sub-viewer-actions">
+            <button class="sv-action-btn" onclick="copySubtitles()">📋 Copy All</button>
+            <button class="sv-action-btn" onclick="closeSubViewer()">✕ Close</button>
+          </div>
+        </div>
+        <div class="sub-lines" id="subLines">
+          <div class="sub-loading" id="subLoading">
+            <div class="sub-spinner"></div>
+            <span>Fetching subtitles... (max 45s)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subtitle download progress -->
+      <div class="progress-wrap" id="subProgressWrap">
+        <div class="prog-label"><span id="subProgText">Fetching...</span><span id="subProgPct">0%</span></div>
+        <div class="prog-bar"><div class="prog-fill" id="subProgFill"></div></div>
+      </div>
+      <div class="dl-ready" id="subDlReady">
+        <span class="dl-ready-text">✅ Subtitle file ready!</span>
+        <a class="save-btn" id="subSaveLink" href="#" target="_blank">💾 Save File</a>
       </div>
     </div>
 
-    <!-- Download + Stop -->
-    <div class="dl-btn-row">
-      <button class="dl-btn" id="dlBtn" onclick="startDownload()">
-        <div class="btn-shimmer"></div>✦ Download Now ✦
-      </button>
-      <button class="stop-btn" id="stopBtn" onclick="stopDownload()">⏹ Stop</button>
+    <!-- Main download button (video/audio only) -->
+    <div id="mainDlSection">
+      <div class="dl-btn-row">
+        <button class="dl-btn" id="dlBtn" onclick="startDownload()">
+          <div class="btn-shimmer"></div>✦ Download Now ✦
+        </button>
+        <button class="stop-btn" id="stopBtn" onclick="stopDownload()">⏹ Stop</button>
+      </div>
+      <div class="progress-wrap" id="progressWrap">
+        <div class="prog-label"><span id="progText">Preparing...</span><span id="progPct">0%</span></div>
+        <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+        <div class="prog-speed" id="progSpeed"></div>
+      </div>
+      <div class="dl-ready" id="dlReady">
+        <span class="dl-ready-text">✅ File ready!</span>
+        <a class="save-btn" id="saveLink" href="#" target="_blank">💾 Save File</a>
+      </div>
     </div>
 
-    <div class="progress-wrap" id="progressWrap">
-      <div class="prog-label"><span id="progText">Preparing...</span><span id="progPct">0%</span></div>
-      <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
-      <div class="prog-speed" id="progSpeed"></div>
-    </div>
-
-    <div class="dl-ready" id="dlReady">
-      <span class="dl-ready-text">✅ File ready!</span>
-      <a class="save-btn" id="saveLink" href="#" target="_blank">💾 Save File</a>
-    </div>
-
-    <!-- Error with ✕ Close + AI suggestion -->
+    <!-- Error box -->
     <div class="error-box" id="errorBox">
       <div class="error-main">
         <span class="error-msg" id="errorMsg">Error</span>
         <button class="error-close" onclick="hideError()">✕ Close</button>
       </div>
-      <div class="ai-sub-box" id="aiSubBox">
-        <div class="ai-sub-title">🤖 Subtitle nahi mila — AI se try karein?</div>
-        <div class="ai-sub-desc">Is video mein manually added subtitles nahi hain. YouTube ki <strong>AI Auto-generated captions</strong> try karein? Ye aksar music videos aur Hindi/English dono content pe kaam karta hai.</div>
-        <div class="ai-sub-actions">
-          <button class="ai-btn yes" onclick="retryWithAutoSub()">✨ Haan, Auto-generate karo</button>
-          <button class="ai-btn no" onclick="hideError()">Nahi, theek hai</button>
-        </div>
-      </div>
     </div>
-
   </div>
 
   <div class="card" style="padding:24px 28px">
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;text-align:center">
       <div><div style="font-size:22px;margin-bottom:6px">🌸</div><div style="font-size:13px;font-weight:500">Up to 4K Ultra HD</div><div style="font-size:11px;color:var(--muted)">Crystal clear video</div></div>
       <div><div style="font-size:22px;margin-bottom:6px">🎵</div><div style="font-size:13px;font-weight:500">320kbps Audio</div><div style="font-size:11px;color:var(--muted)">Studio quality sound</div></div>
-      <div><div style="font-size:22px;margin-bottom:6px">📝</div><div style="font-size:13px;font-weight:500">Hindi + English</div><div style="font-size:11px;color:var(--muted)">Bilingual subtitles</div></div>
+      <div><div style="font-size:22px;margin-bottom:6px">📝</div><div style="font-size:13px;font-weight:500">In-app Viewer</div><div style="font-size:11px;color:var(--muted)">Read without downloading</div></div>
     </div>
   </div>
-  <div class="footer">Video Bloom · Powered by yt-dlp · For personal use only</div>
+  <div class="footer">Video Bloom v2.0 · Powered by yt-dlp · For personal use only</div>
 </div>
 <div class="notif" id="notif"></div>
 
 <script>
 const API="http://localhost:8080/api";
-let activeTab="video",pollTimer=null,isStopped=false,videoDurSec=0;
+let activeTab="video", pollTimer=null, isStopped=false, videoDurSec=0;
+let subViewerOpen=false, allSubLines=[];
 
 // Petals
 (function(){
@@ -346,15 +370,19 @@ card.addEventListener('mousemove',e=>{
 });
 card.addEventListener('mouseleave',()=>card.style.transform='');
 
-// Health
 async function checkHealth(){
-  try{const r=await fetch(`${API}/health`,{signal:AbortSignal.timeout(3000)});
-    if(r.ok){document.getElementById('statusDot').className='status-dot online';document.getElementById('statusText').textContent='Backend online — ready to download';return;}
+  try{
+    const r=await fetch(`${API}/health`,{signal:AbortSignal.timeout(3000)});
+    if(r.ok){
+      document.getElementById('statusDot').className='status-dot online';
+      document.getElementById('statusText').textContent='Backend online — ready to download';
+      return;
+    }
   }catch{}
   document.getElementById('statusDot').className='status-dot offline';
-  document.getElementById('statusText').textContent='Backend offline — start server.py first';
+  document.getElementById('statusText').textContent='Backend offline — run: python3 server.py';
 }
-checkHealth();setInterval(checkHealth,15000);
+checkHealth(); setInterval(checkHealth,15000);
 
 function notify(msg,dur=3500){
   const n=document.getElementById('notif');n.textContent=msg;n.classList.add('show');
@@ -362,32 +390,31 @@ function notify(msg,dur=3500){
 }
 
 async function pasteClip(){
-  try{const t=await navigator.clipboard.readText();document.getElementById('urlInput').value=t;
+  try{
+    const t=await navigator.clipboard.readText();
+    document.getElementById('urlInput').value=t;
     if(t.includes('youtube')||t.includes('youtu.be'))notify('🌸 Pasted! Click Analyse.');
     else notify('⚠️ Make sure it\'s a YouTube link.');
-  }catch{notify('⚠️ Paste failed. Paste manually.');}
+  }catch{notify('⚠️ Paste failed — paste manually.');}
 }
 
-// File size calc from duration
 const bitrates={2160:40e6,1440:20e6,1080:8e6,720:4e6,480:2e6,360:1e6,240:5e5,144:2e5};
-function fmtSize(bytes){return bytes>=1073741824?`${(bytes/1073741824).toFixed(1)} GB`:`${Math.round(bytes/1048576)} MB`;}
-function calcSize(q,sec){return fmtSize((bitrates[q]||8e6)*sec/8);}
+function fmtSize(b){return b>=1073741824?`${(b/1073741824).toFixed(1)} GB`:`${Math.round(b/1048576)} MB`;}
+function calcSize(q,sec){return fmtSize((bitrates[+q]||8e6)*sec/8);}
 
 function updateSizes(sec){
   videoDurSec=sec;
   Object.keys(bitrates).forEach(q=>{
     const el=document.getElementById('sz-'+q);
-    if(el) el.textContent=sec>0?'~'+calcSize(q,sec):(q>=1080?'~GB range':'~MB range');
+    if(el)el.textContent=sec>0?'~'+calcSize(q,sec):'—';
   });
   updateSizeHint();
 }
-
 function updateSizeHint(){
-  if(!videoDurSec) return;
+  if(!videoDurSec)return;
   const q=document.querySelector('.q-card.selected')?.dataset.q||'1080';
-  const hint=document.getElementById('sizeHint');
   document.getElementById('sizeHintVal').textContent=calcSize(q,videoDurSec);
-  hint.style.display='block';
+  document.getElementById('sizeHint').classList.add('visible');
 }
 
 async function fetchInfo(){
@@ -398,47 +425,212 @@ async function fetchInfo(){
   try{
     const r=await fetch(`${API}/info`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url})});
     const d=await r.json();
-    if(d.error){showError(d.error,false);return;}
+    if(d.error){showError(d.error);return;}
     document.getElementById('vidTitle').textContent=d.title;
     document.getElementById('vidCh').textContent='📺 '+d.channel;
     document.getElementById('vidDur').textContent='⏱ '+d.duration;
     document.getElementById('vidView').textContent='👁 '+d.views;
-    if(d.thumbnail) document.getElementById('thumbWrap').innerHTML=`<img src="${d.thumbnail}" alt="thumb" style="width:100%;height:100%;object-fit:cover">`;
+    if(d.thumbnail)document.getElementById('thumbWrap').innerHTML=`<img src="${d.thumbnail}" alt="thumb" style="width:100%;height:100%;object-fit:cover">`;
     document.getElementById('preview').style.display='flex';
-    if(d.duration){
-      const p=d.duration.split(':').map(Number);
-      const sec=p.length===3?p[0]*3600+p[1]*60+p[2]:p.length===2?p[0]*60+p[1]:p[0];
-      updateSizes(sec);
+    // Show subtitle badge if available
+    if(d.has_subtitles){
+      document.getElementById('vidSubTag').style.display='inline-flex';
     }
+    if(d.duration_sec)updateSizes(d.duration_sec);
     notify('✅ Video info loaded!');
-  }catch{showError('Cannot reach backend. Is server.py running?',false);}
+  }catch{showError('Cannot reach backend. Is server.py running?');}
   finally{btn.textContent='Analyse ✦';btn.disabled=false;}
 }
 
 function switchTab(id,el){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  el.classList.add('active');document.getElementById('tab-'+id).classList.add('active');activeTab=id;
+  el.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+  activeTab=id;
+  // Show/hide main download button
+  document.getElementById('mainDlSection').style.display=(id==='subtitle')?'none':'block';
 }
 
 function selectQ(el){
   document.querySelectorAll('.q-card').forEach(c=>c.classList.remove('selected'));
-  el.classList.add('selected');updateSizeHint();
+  el.classList.add('selected'); updateSizeHint();
 }
 function selectFmt(el){el.parentElement.querySelectorAll('.fmt-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');}
 function selectAQ(el){document.querySelectorAll('.aq-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');}
-function toggleSub(el){el.classList.toggle('on');}
+function selectLang(el){document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');}
 function selectSFmt(el){document.querySelectorAll('.sfmt').forEach(b=>b.classList.remove('on'));el.classList.add('on');}
 
-function showError(msg,isSubErr=false){
+function showError(msg){
   document.getElementById('errorMsg').textContent='❌ '+msg;
   document.getElementById('errorBox').classList.add('visible');
-  const ai=document.getElementById('aiSubBox');
-  (isSubErr&&(msg.toLowerCase().includes('subtitle')||msg.toLowerCase().includes('caption')))
-    ?ai.classList.add('visible'):ai.classList.remove('visible');
 }
-function hideError(){document.getElementById('errorBox').classList.remove('visible');document.getElementById('aiSubBox').classList.remove('visible');}
+function hideError(){document.getElementById('errorBox').classList.remove('visible');}
 
+// ── SUBTITLE VIEWER ──────────────────────────────
+async function viewSubtitles(){
+  const url=document.getElementById('urlInput').value.trim();
+  if(!url){notify('🌸 Enter & Analyse a YouTube URL first!');return;}
+
+  const langBtn=document.querySelector('.lang-btn.selected');
+  let lang=langBtn?.dataset.lang||'en';
+  // For "auto" we try english first
+  if(lang==='auto')lang='en';
+  // For "both" we try english, then show both
+  const isBoth=(lang==='en,hi');
+  const primaryLang=isBoth?'en':lang;
+
+  const viewer=document.getElementById('subViewer');
+  const lines=document.getElementById('subLines');
+  viewer.classList.add('visible');
+  lines.innerHTML='<div class="sub-loading"><div class="sub-spinner"></div><span>Fetching subtitles... (max 45s)</span></div>';
+  document.getElementById('subViewBtn').disabled=true;
+  hideError();
+  subViewerOpen=true;
+
+  try{
+    // AbortController for 47s client-side timeout (slightly more than server's 45s)
+    const controller=new AbortController();
+    const tid=setTimeout(()=>controller.abort(),47000);
+
+    const r=await fetch(`${API}/subtitles/view`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({url,lang:primaryLang}),
+      signal:controller.signal,
+    });
+    clearTimeout(tid);
+    const d=await r.json();
+
+    if(d.error){
+      // If english failed and "both" selected, try hindi
+      if(isBoth){
+        lines.innerHTML='<div class="sub-loading"><div class="sub-spinner"></div><span>Trying Hindi...</span></div>';
+        const r2=await fetch(`${API}/subtitles/view`,{
+          method:'POST',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({url,lang:'hi'}),
+        });
+        const d2=await r2.json();
+        if(d2.error){renderSubError(d2.error);return;}
+        renderSubLines(d2.lines, d2.lang_used);
+      } else {
+        renderSubError(d.error);
+      }
+      return;
+    }
+    renderSubLines(d.lines, d.lang_used);
+  }catch(e){
+    if(e.name==='AbortError'){
+      renderSubError('Request timed out (47s). The video may not have captions, or try again.');
+    }else{
+      renderSubError('Cannot reach backend. Is server.py running?');
+    }
+  }finally{
+    document.getElementById('subViewBtn').disabled=false;
+  }
+}
+
+function renderSubLines(linesArr, langUsed){
+  allSubLines=linesArr;
+  const container=document.getElementById('subLines');
+  document.getElementById('subViewerTitle').textContent=
+    `Subtitles — ${langUsed.toUpperCase()}`;
+  document.getElementById('subViewerCount').textContent=
+    `(${linesArr.length} lines)`;
+
+  if(!linesArr||linesArr.length===0){
+    container.innerHTML='<div class="sub-empty">😔 No caption lines found.<br><small style="color:rgba(196,181,212,.5)">Try a different language.</small></div>';
+    return;
+  }
+  container.innerHTML=linesArr.map(l=>`
+    <div class="sub-line">
+      <span class="sub-time">${l.time||''}</span>
+      <span class="sub-text">${escHtml(l.text)}</span>
+    </div>
+  `).join('');
+}
+
+function renderSubError(msg){
+  document.getElementById('subLines').innerHTML=
+    `<div class="sub-empty">❌ ${escHtml(msg)}<br><small style="color:rgba(196,181,212,.4);margin-top:6px;display:block">Try 'Auto-detect' or a different language.</small></div>`;
+  document.getElementById('subViewerTitle').textContent='Subtitles';
+  document.getElementById('subViewerCount').textContent='';
+}
+
+function closeSubViewer(){
+  document.getElementById('subViewer').classList.remove('visible');
+  subViewerOpen=false;allSubLines=[];
+}
+
+function copySubtitles(){
+  if(!allSubLines.length){notify('Nothing to copy!');return;}
+  const text=allSubLines.map(l=>`[${l.time}] ${l.text}`).join('\n');
+  navigator.clipboard.writeText(text).then(()=>notify('📋 Copied to clipboard!'));
+}
+
+function escHtml(t){
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── SUBTITLE DOWNLOAD ──────────────────────────────
+async function downloadSubtitle(){
+  const url=document.getElementById('urlInput').value.trim();
+  if(!url){notify('🌸 Enter & Analyse a YouTube URL first!');return;}
+
+  const langBtn=document.querySelector('.lang-btn.selected');
+  let lang=langBtn?.dataset.lang||'en';
+  if(lang==='auto')lang='en';
+  if(lang==='en,hi')lang='en';
+  const fmt=document.querySelector('.sfmt.on')?.textContent||'srt';
+
+  document.getElementById('subProgressWrap').classList.add('visible');
+  document.getElementById('subDlReady').classList.remove('visible');
+  document.getElementById('subProgFill').style.width='5%';
+  document.getElementById('subProgText').textContent='Starting...';
+  document.getElementById('subDlBtn').disabled=true;
+  hideError();
+
+  try{
+    const r=await fetch(`${API}/download/subtitle`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({url,lang,format:fmt}),
+    });
+    const d=await r.json();
+    if(d.error){showError(d.error);document.getElementById('subDlBtn').disabled=false;return;}
+    pollSubJob(d.job_id);
+  }catch{
+    showError('Cannot reach backend.');
+    document.getElementById('subDlBtn').disabled=false;
+  }
+}
+
+function pollSubJob(jobId){
+  const timer=setInterval(async()=>{
+    try{
+      const r=await fetch(`${API}/status/${jobId}`);
+      const d=await r.json();
+      document.getElementById('subProgFill').style.width=(d.progress||5)+'%';
+      document.getElementById('subProgText').textContent=
+        d.status==='starting'?'Fetching captions...' :
+        d.status==='processing'?'Processing...' :
+        d.status==='done'?'Done!' : d.status||'Working...';
+      if(d.status==='done'){
+        clearInterval(timer);
+        document.getElementById('subDlReady').classList.add('visible');
+        document.getElementById('subSaveLink').href=`${API}/file/${jobId}`;
+        document.getElementById('subDlBtn').disabled=false;
+        notify('📝 Subtitle file ready!');
+      }else if(d.status==='error'){
+        clearInterval(timer);
+        showError(d.error||'Subtitle fetch failed.');
+        document.getElementById('subDlBtn').disabled=false;
+        document.getElementById('subProgressWrap').classList.remove('visible');
+      }
+    }catch{clearInterval(timer);showError('Lost connection to backend.');}
+  },800);
+}
+
+// ── MAIN DOWNLOAD ────────────────────────────────────
 function resetProgress(){
   document.getElementById('progressWrap').classList.remove('visible');
   document.getElementById('dlReady').classList.remove('visible');
@@ -450,11 +642,10 @@ function resetProgress(){
 }
 
 function stopDownload(){
-  isStopped=true;if(pollTimer)clearInterval(pollTimer);pollTimer=null;
+  isStopped=true;if(pollTimer)clearInterval(pollTimer);
   document.getElementById('stopBtn').classList.remove('visible');
   document.getElementById('dlBtn').disabled=false;
-  document.getElementById('progText').textContent='⏹ Stopped by user';
-  document.getElementById('progSpeed').textContent='';
+  document.getElementById('progText').textContent='⏹ Stopped';
   notify('⏹ Download stopped.');
 }
 
@@ -466,7 +657,7 @@ function pollJob(jobId){
     if(isStopped){clearInterval(pollTimer);return;}
     try{
       const r=await fetch(`${API}/status/${jobId}`);const d=await r.json();
-      if(d.error){clearInterval(pollTimer);showError(d.error,false);document.getElementById('stopBtn').classList.remove('visible');return;}
+      if(d.error){clearInterval(pollTimer);showError(d.error);document.getElementById('stopBtn').classList.remove('visible');return;}
       document.getElementById('progFill').style.width=d.progress+'%';
       document.getElementById('progPct').textContent=Math.round(d.progress)+'%';
       document.getElementById('progText').textContent=
@@ -474,7 +665,7 @@ function pollJob(jobId){
         d.status==='downloading'?`Downloading... ${d.downloaded||''} / ${d.total||''}` :
         d.status==='processing'?'Processing & merging...' :
         d.status==='done'?'Complete! 🌸' : d.status;
-      if(d.speed) document.getElementById('progSpeed').textContent='⚡ '+d.speed;
+      if(d.speed)document.getElementById('progSpeed').textContent='⚡ '+d.speed;
       if(d.status==='done'){
         clearInterval(pollTimer);
         document.getElementById('stopBtn').classList.remove('visible');
@@ -482,31 +673,14 @@ function pollJob(jobId){
         document.getElementById('saveLink').href=`${API}/file/${jobId}`;
         document.getElementById('dlBtn').disabled=false;
         notify('🌸 Download complete! Click Save File.');
-      } else if(d.status==='error'){
+      }else if(d.status==='error'){
         clearInterval(pollTimer);
         document.getElementById('stopBtn').classList.remove('visible');
-        showError(d.error||'Unknown error', activeTab==='subtitle');
+        showError(d.error||'Unknown error');
         document.getElementById('dlBtn').disabled=false;
       }
-    }catch{clearInterval(pollTimer);showError('Lost connection to backend.',false);}
+    }catch{clearInterval(pollTimer);showError('Lost connection to backend.');}
   },800);
-}
-
-async function retryWithAutoSub(){
-  hideError();
-  const url=document.getElementById('urlInput').value.trim();if(!url)return;
-  const fmt=document.querySelector('.sfmt.on')?.textContent||'srt';
-  resetProgress();
-  document.getElementById('progressWrap').classList.add('visible');
-  document.getElementById('dlBtn').disabled=true;
-  notify('🤖 Trying AI auto-generated captions...');
-  try{
-    const r=await fetch(`${API}/download/subtitle`,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({url,langs:['en','hi'],format:fmt,auto_generated:true})});
-    const d=await r.json();
-    if(d.error){showError(d.error,false);document.getElementById('dlBtn').disabled=false;return;}
-    pollJob(d.job_id);
-  }catch{showError('Cannot reach backend.',false);document.getElementById('dlBtn').disabled=false;}
 }
 
 async function startDownload(){
@@ -522,25 +696,18 @@ async function startDownload(){
       const q=document.querySelector('.q-card.selected')?.dataset.q||'1080';
       const fmt=document.querySelector('#tab-video .fmt-btn.selected')?.textContent||'mp4';
       endpoint='/download/video';body={url,quality:q+'p',format:fmt};
-    } else if(activeTab==='audio'){
+    }else{
       const kbps=document.querySelector('.aq-card.selected')?.dataset.kbps||'320';
       const fmt=document.querySelector('#tab-audio .fmt-btn.selected')?.textContent||'mp3';
       endpoint='/download/audio';body={url,kbps,format:fmt};
-    } else {
-      const langs=[];
-      document.querySelectorAll('.sub-toggle.on[data-lang]').forEach(t=>{if(t.dataset.lang!=='lyrics')langs.push(t.dataset.lang);});
-      const auto=!!document.querySelector('.sub-toggle.on[data-auto]');
-      const fmt=document.querySelector('.sfmt.on')?.textContent||'srt';
-      if(!langs.length){showError('Select at least one language.',false);document.getElementById('dlBtn').disabled=false;return;}
-      endpoint='/download/subtitle';body={url,langs,format:fmt,auto_generated:auto};
     }
     const r=await fetch(`${API}${endpoint}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     const d=await r.json();
-    if(d.error){showError(d.error,activeTab==='subtitle');document.getElementById('dlBtn').disabled=false;return;}
+    if(d.error){showError(d.error);document.getElementById('dlBtn').disabled=false;return;}
     notify('✨ Download started!');
     pollJob(d.job_id);
   }catch{
-    showError('Cannot reach backend. Is server.py running on port 8080?',false);
+    showError('Cannot reach backend. Is server.py running on port 8080?');
     document.getElementById('dlBtn').disabled=false;
   }
 }
