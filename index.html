@@ -470,11 +470,27 @@ function selectLang(el){
   el.classList.add('selected');
   isBothMode=false;
   isLyricsMode=el.dataset.mode==='lyrics';
+  resetSubViewer(); // ← clear viewer on lang change
 }
 function selectLangBoth(el){
   document.querySelectorAll('.lang-card').forEach(c=>c.classList.remove('selected'));
   el.classList.add('selected');
   isBothMode=true;isLyricsMode=false;
+  resetSubViewer(); // ← clear viewer on lang change
+}
+
+function resetSubViewer(){
+  cachedLines=[];
+  document.getElementById('subViewer').classList.remove('visible');
+  document.getElementById('subLinesWrap').innerHTML=
+    '<div class="sub-state"><span style="color:var(--muted);font-size:13px">Press "View Now" to load captions</span></div>';
+  document.getElementById('svTitle').textContent='Subtitles';
+  document.getElementById('svCount').textContent='';
+  document.getElementById('svKind').textContent='';
+  document.getElementById('subDlProg').classList.remove('visible');
+  document.getElementById('subDlReady').classList.remove('visible');
+  document.getElementById('subDlBtn').disabled=false;
+  hideError();
 }
 
 function getSelectedLang(){
@@ -486,105 +502,134 @@ function showError(msg){document.getElementById('errorMsg').textContent='❌ '+m
 function hideError(){document.getElementById('errorBox').classList.remove('visible');}
 
 // ── SUBTITLE VIEWER ──────────────────────────────────────────────
+// Safe null-proof element helpers
+function $s(id,val,p='textContent'){const e=document.getElementById(id);if(e)e[p]=val;}
+function $d(id,v){const e=document.getElementById(id);if(e)e.disabled=v;}
+function setLoadingMsg(msg){
+  const w=document.getElementById('subLinesWrap');
+  if(w) w.innerHTML='<div class="sub-state"><div class="spin"></div><span style="color:var(--muted)">'+msg+'</span></div>';
+}
+
 async function viewSubtitles(){
   const url=document.getElementById('urlInput').value.trim();
   if(!url){notify('🌸 Enter & Analyse a YouTube URL first!');return;}
 
   const lang=getSelectedLang();
   const viewer=document.getElementById('subViewer');
-  const wrap=document.getElementById('subLinesWrap');
 
+  // Show viewer FIRST before accessing child elements
   viewer.classList.add('visible');
-  document.getElementById('subStateMsg').textContent='Fetching captions... (max 45s)';
-  wrap.innerHTML='<div class="sub-state"><div class="spin"></div><span id="subStateMsg">Fetching captions... (max 45s)</span></div>';
-  document.getElementById('subViewBtn').disabled=true;
+  await new Promise(r=>setTimeout(r,30));
+
+  setLoadingMsg('Fetching captions...');
+  $d('subViewBtn',true);
+  $s('svTitle','Loading...');
+  $s('svCount','');
+  $s('svKind','');
   hideError();
 
   try{
     const ctrl=new AbortController();
-    const tid=setTimeout(()=>ctrl.abort(),47000);
+    const tid=setTimeout(()=>ctrl.abort(),50000);
 
     const res=await fetch(`${API}/subtitles/view`,{
-      method:'POST',headers:{'Content-Type':'application/json'},
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
       body:JSON.stringify({url,lang}),
       signal:ctrl.signal,
     });
     clearTimeout(tid);
+
     const d=await res.json();
 
     if(d.error){
-      // If "both" mode and english failed, try hindi
       if(isBothMode){
-        wrap.innerHTML='<div class="sub-state"><div class="spin"></div><span>Trying Hindi...</span></div>';
-        const res2=await fetch(`${API}/subtitles/view`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url,lang:'hi'})});
-        const d2=await res2.json();
-        if(d2.error){renderError(d2.error);return;}
-        renderLines(d2.lines,d2.lang,d2.kind);
-        return;
+        // english failed in both mode — try hindi
+        setLoadingMsg('English not found, trying Hindi...');
+        try{
+          const res2=await fetch(`${API}/subtitles/view`,{
+            method:'POST',headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({url,lang:'hi'}),
+          });
+          const d2=await res2.json();
+          if(!d2.error&&d2.lines?.length){renderLines(d2.lines,d2.lang,d2.kind);return;}
+        }catch{}
       }
-      renderError(d.error);return;
+      renderError(d.error);
+      return;
     }
 
-    // Both mode: fetch hindi too and combine
-    if(isBothMode){
-      const res2=await fetch(`${API}/subtitles/view`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url,lang:'hi'})});
-      const d2=await res2.json();
-      if(!d2.error&&d2.lines?.length){
-        const combined=[...d.lines,...d2.lines].sort((a,b)=>a.time.localeCompare(b.time));
-        renderLines(combined,'EN+HI',d.kind);return;
-      }
+    // Both mode: got english — also try fetch hindi and combine
+    if(isBothMode && d.lines?.length){
+      setLoadingMsg('Got English, fetching Hindi...');
+      try{
+        const res2=await fetch(`${API}/subtitles/view`,{
+          method:'POST',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({url,lang:'hi'}),
+        });
+        const d2=await res2.json();
+        if(!d2.error&&d2.lines?.length){
+          const combined=[...d.lines,...d2.lines].sort((a,b)=>(a.time||'').localeCompare(b.time||''));
+          renderLines(combined,'EN+HI','auto');
+          return;
+        }
+      }catch{}
+      // Hindi failed — just show english
+      renderLines(d.lines,d.lang,d.kind);
+      return;
     }
 
     renderLines(d.lines,d.lang,d.kind);
+
   }catch(e){
-    renderError(e.name==='AbortError'?'Timed out (47s). Try a different language.':'Cannot reach backend.');
+    if(e.name==='AbortError'){
+      renderError('Timed out (50s). Click Analyse again then retry.');
+    }else{
+      renderError('Cannot reach backend — is server.py running?');
+    }
   }finally{
-    document.getElementById('subViewBtn').disabled=false;
+    $d('subViewBtn',false);
   }
 }
 
 function renderLines(lines,lang,kind){
   cachedLines=lines||[];
   const wrap=document.getElementById('subLinesWrap');
-  document.getElementById('svTitle').textContent=isLyricsMode?`🎵 Lyrics — ${lang.toUpperCase()}`:`📝 Subtitles — ${lang.toUpperCase()}`;
-  document.getElementById('svCount').textContent=`${cachedLines.length} lines`;
+  $s('svTitle',isLyricsMode?'🎵 Lyrics — '+lang.toUpperCase():'📝 Subtitles — '+lang.toUpperCase());
+  $s('svCount',cachedLines.length+' lines');
   const kindEl=document.getElementById('svKind');
-  if(kind&&kind.includes('auto')){kindEl.textContent='AI Generated';kindEl.className='svh-kind auto';}
-  else if(kind==='manual'){kindEl.textContent='Manual';kindEl.className='svh-kind manual';}
-  else{kindEl.textContent='';kindEl.className='svh-kind';}
-
-  if(!cachedLines.length){
-    wrap.innerHTML='<div class="sub-state">😔 No lines found. Try another language.</div>';return;
+  if(kindEl){
+    if(kind&&kind.includes('auto')){kindEl.textContent='AI Generated';kindEl.className='svh-kind auto';}
+    else if(kind==='manual'){kindEl.textContent='Manual';kindEl.className='svh-kind manual';}
+    else{kindEl.textContent='';kindEl.className='svh-kind';}
   }
+  if(!wrap)return;
+  if(!cachedLines.length){wrap.innerHTML='<div class="sub-state">😔 No lines found.</div>';return;}
   if(isLyricsMode){
-    // Lyrics: no timestamps, big text, centered feel
-    wrap.innerHTML=cachedLines.map(l=>
-      `<div style="padding:6px 16px;font-size:15px;color:var(--text);line-height:1.7;border-bottom:1px solid rgba(255,180,220,.05)">${esc(l.text)}</div>`
-    ).join('');
+    wrap.innerHTML=cachedLines.map(l=>'<div style="padding:6px 16px;font-size:15px;color:var(--text);line-height:1.7;border-bottom:1px solid rgba(255,180,220,.05)">'+esc(l.text)+'</div>').join('');
   }else{
-    wrap.innerHTML=cachedLines.map(l=>
-      `<div class="sub-line"><span class="sub-ts">${l.time||''}</span><span class="sub-txt">${esc(l.text)}</span></div>`
-    ).join('');
+    wrap.innerHTML=cachedLines.map(l=>'<div class="sub-line"><span class="sub-ts">'+(l.time||'')+'</span><span class="sub-txt">'+esc(l.text)+'</span></div>').join('');
   }
 }
 
 function renderError(msg){
-  document.getElementById('subLinesWrap').innerHTML=
-    `<div class="sub-state" style="flex-direction:column;gap:8px;text-align:center">
-      <span style="font-size:20px">😔</span>
-      <span>${esc(msg)}</span>
-      <span style="font-size:12px;color:rgba(196,181,212,.5)">Try a different language or check if the video has captions.</span>
-    </div>`;
-  document.getElementById('svTitle').textContent='Subtitles';
-  document.getElementById('svCount').textContent='';
-  document.getElementById('svKind').textContent='';
+  const wrap=document.getElementById('subLinesWrap');
+  if(wrap)wrap.innerHTML='<div class="sub-state" style="flex-direction:column;gap:8px;text-align:center"><span style="font-size:20px">😔</span><span>'+esc(msg)+'</span><span style="font-size:12px;color:rgba(196,181,212,.4)">Try a different language or re-Analyse.</span></div>';
+  $s('svTitle','Subtitles');$s('svCount','');$s('svKind','');
 }
 
-function closeViewer(){document.getElementById('subViewer').classList.remove('visible');cachedLines=[];}
+function closeViewer(){const v=document.getElementById('subViewer');if(v)v.classList.remove('visible');cachedLines=[];}
 function copyAll(){
   if(!cachedLines.length){notify('Nothing to copy!');return;}
-  const txt=isLyricsMode?cachedLines.map(l=>l.text).join('\n'):cachedLines.map(l=>`[${l.time}] ${l.text}`).join('\n');
-  navigator.clipboard.writeText(txt).then(()=>notify('📋 Copied to clipboard!'));
+  const txt=isLyricsMode?cachedLines.map(l=>l.text).join('\n'):cachedLines.map(l=>'['+l.time+'] '+l.text).join('\n');
+  try{navigator.clipboard.writeText(txt).then(()=>notify('📋 Copied!')).catch(()=>_fbCopy(txt));}catch{_fbCopy(txt);}
+}
+function _fbCopy(txt){
+  const ta=document.createElement('textarea');ta.value=txt;
+  ta.style.cssText='position:fixed;opacity:0;top:0;left:0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');notify('📋 Copied!');}catch{notify('Select text manually to copy.');}
+  document.body.removeChild(ta);
 }
 const esc=t=>(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
