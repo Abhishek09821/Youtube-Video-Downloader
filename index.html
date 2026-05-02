@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> BLOSOM — YouTube Downloader </title>
+<title>BLOSOM — YouTube Downloader</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{--rose:#FF2D6B;--rose-light:#FF6FA3;--petal:#FFB3CC;--violet:#7B2FBE;--violet-light:#A855F7;--blue:#1E40AF;--blue-light:#60A5FA;--deep:#0F0A1E;--text:#F8F0FF;--muted:#C4B5D4;--glass:rgba(255,255,255,0.06);--glass-border:rgba(255,180,220,0.2);}
@@ -366,7 +366,7 @@
 <div class="notif" id="notif"></div>
 
 <script>
-const API="https://youtube-video-downloader-production-24db.up.railway.app/api";
+const API= "http://localhost:8080";
 let activeTab="video", pollTimer=null, isStopped=false, videoDurSec=0;
 let cachedLines=[], isBothMode=false, isLyricsMode=false;
 
@@ -392,7 +392,7 @@ card.addEventListener('mouseleave',()=>card.style.transform='');
 
 async function checkHealth(){
   try{
-    const r=await fetch(`${API}/health`,{signal:AbortSignal.timeout(3000)});
+    const r= await fetch(`${API}/api/health`,{signal:AbortSignal.timeout(10000)});
     if(r.ok){
       document.getElementById('sdot').className='sdot on';
       document.getElementById('stext').textContent='Backend online — ready';return;
@@ -437,7 +437,7 @@ async function fetchInfo(){
   const btn=document.getElementById('fetchBtn');
   btn.textContent='⟳ Loading...';btn.disabled=true;hideError();
   try{
-    const r=await fetch(`${API}/info`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url})});
+    const r=await fetch(`${API}/api/info`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url})});
     const d=await r.json();
     if(d.error){showError(d.error);return;}
     document.getElementById('vidTitle').textContent=d.title;
@@ -532,7 +532,7 @@ async function viewSubtitles(){
     const ctrl=new AbortController();
     const tid=setTimeout(()=>ctrl.abort(),50000);
 
-    const res=await fetch(`${API}/subtitles/view`,{
+    const res=await fetch(`${API}/api/subtitles/view`,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({url,lang}),
@@ -547,7 +547,7 @@ async function viewSubtitles(){
         // english failed in both mode — try hindi
         setLoadingMsg('English not found, trying Hindi...');
         try{
-          const res2=await fetch(`${API}/subtitles/view`,{
+          const res2=await fetch(`${API}/api/subtitles/view`,{
             method:'POST',headers:{'Content-Type':'application/json'},
             body:JSON.stringify({url,lang:'hi'}),
           });
@@ -563,7 +563,7 @@ async function viewSubtitles(){
     if(isBothMode && d.lines?.length){
       setLoadingMsg('Got English, fetching Hindi...');
       try{
-        const res2=await fetch(`${API}/subtitles/view`,{
+        const res2=await fetch(`${API}/api/subtitles/view`,{
           method:'POST',headers:{'Content-Type':'application/json'},
           body:JSON.stringify({url,lang:'hi'}),
         });
@@ -648,7 +648,7 @@ async function downloadSubtitle(){
   hideError();
 
   try{
-    const r=await fetch(`${API}/subtitles/download`,{
+    const r=await fetch(`${API}/api/subtitles/download`,{
       method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({url,lang,format:fmt}),
     });
@@ -660,7 +660,7 @@ async function downloadSubtitle(){
 
 function pollSubDl(jid){
   const t=setInterval(async()=>{
-    const r=await fetch(`${API}/status/${jid}`).catch(()=>null);
+    const r=await fetch(`${API}/api/status/${jid}`).catch(()=>null);
     if(!r){clearInterval(t);showError('Lost connection.');return;}
     const d=await r.json();
     document.getElementById('subDlFill').style.width=(d.progress||5)+'%';
@@ -672,7 +672,7 @@ function pollSubDl(jid){
     if(d.status==='done'){
       clearInterval(t);
       document.getElementById('subDlReady').classList.add('visible');
-      document.getElementById('subSaveLink').href=`${API}/file/${jid}`;
+      document.getElementById('subSaveLink').href=`${API}/api/file/${jid}`;
       document.getElementById('subDlBtn').disabled=false;
       notify('📝 Subtitle file ready!');
     }else if(d.status==='error'){
@@ -707,7 +707,7 @@ function pollJob(jid){
   isStopped=false;document.getElementById('stopBtn').classList.add('visible');
   pollTimer=setInterval(async()=>{
     if(isStopped){clearInterval(pollTimer);return;}
-    const r=await fetch(`${API}/status/${jid}`).catch(()=>null);
+    const r=await fetch(`${API}/api/status/${jid}`).catch(()=>null);
     if(!r){clearInterval(pollTimer);showError('Lost connection.');return;}
     const d=await r.json();
     if(d.error){clearInterval(pollTimer);showError(d.error);document.getElementById('stopBtn').classList.remove('visible');return;}
@@ -723,7 +723,7 @@ function pollJob(jid){
       clearInterval(pollTimer);
       document.getElementById('stopBtn').classList.remove('visible');
       document.getElementById('dlReady').classList.add('visible');
-      document.getElementById('saveLink').href=`${API}/file/${jid}`;
+      document.getElementById('saveLink').href=`${API}/api/file/${jid}`;
       document.getElementById('dlBtn').disabled=false;
       notify('🌸 Download complete!');
     }else if(d.status==='error'){
@@ -745,11 +745,11 @@ async function startDownload(){
     if(activeTab==='video'){
       const q=document.querySelector('.q-card.selected')?.dataset.q||'1080';
       const fmt=document.querySelector('#tab-video .fmt-btn.selected')?.textContent||'mp4';
-      ep='/download/video';body={url,quality:q+'p',format:fmt};
+      ep='/api/download/video';body={url,quality:q+'p',format:fmt};
     }else{
       const kbps=document.querySelector('.aq-card.selected')?.dataset.kbps||'320';
       const fmt=document.querySelector('#tab-audio .fmt-btn.selected')?.textContent||'mp3';
-      ep='/download/audio';body={url,kbps,format:fmt};
+      ep='/api/download/audio';body={url,kbps,format:fmt};
     }
     const r=await fetch(`${API}${ep}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     const d=await r.json();

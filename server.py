@@ -585,6 +585,6 @@ def serve_file(job_id):
 
 
 if __name__ == "__main__":
-    print("\n🌸 Video Bloom Backend v4.0 — http://localhost:8080\n")
+    print("\n🌸 Video Bloom Backend v4.0 — https://youtube-video-downloader-production-24db.up.railway.app\n")
     print("   Caption URLs cached at Analyse time — View is now instant!\n")
     app.run(host="0.0.0.0", port=8080, debug=False, threaded=True)
