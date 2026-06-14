@@ -1,18 +1,35 @@
 """
-Video Bloom — Backend v4.0
+VIDown — Backend v4.1
 KEY FIX: Caption URLs cached at /api/info time.
 /api/subtitles/view just downloads from cached URL — no yt-dlp call, instant.
+
+Serves the built React frontend (frontend/dist) when present, with an SPA
+fallback so client-side routes (e.g. /download) resolve on direct load/refresh.
 """
 
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, send_from_directory
 from flask_cors import CORS
 import yt_dlp
 import os, threading, uuid, time, re, json
 import urllib.request, urllib.error
 from pathlib import Path
 
-app = Flask(__name__)
-CORS(app, origins=["*"])
+# ── Frontend build directory (output of `npm run build` in frontend/) ──
+FRONTEND_DIST = Path(__file__).parent / "frontend" / "dist"
+
+app = Flask(__name__, static_folder=None)
+
+# ── CORS: only needed for the React dev server (Vite). In production the
+#    frontend is served from this same origin, so no CORS is required.
+DEV_ORIGINS = [
+    o.strip()
+    for o in os.environ.get(
+        "VIDOWN_CORS_ORIGINS",
+        "http://localhost:5173,http://127.0.0.1:5173",
+    ).split(",")
+    if o.strip()
+]
+CORS(app, resources={r"/api/*": {"origins": DEV_ORIGINS}})
 
 DOWNLOAD_DIR = Path("downloads")
 DOWNLOAD_DIR.mkdir(exist_ok=True)
@@ -584,7 +601,34 @@ def serve_file(job_id):
     return send_file(fp, as_attachment=True, download_name=fn)
 
 
+# ───────────────────────────────────────────────────────────────
+# FRONTEND (serve built React app)
+# ───────────────────────────────────────────────────────────────
+
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def serve_frontend(path):
+    """
+    Serve the built React app. If the requested path is a real file in the
+    build (JS/CSS/assets), return it; otherwise fall back to index.html so
+    React Router can handle client-side routes like /download.
+    """
+    if not FRONTEND_DIST.exists():
+        return jsonify({
+            "error": "Frontend build not found. Run `npm run build` in frontend/."
+        }), 404
+
+    target = FRONTEND_DIST / path
+    if path and target.is_file():
+        return send_from_directory(FRONTEND_DIST, path)
+    return send_from_directory(FRONTEND_DIST, "index.html")
+
+
 if __name__ == "__main__":
-    print("\n🌸 Video Bloom Backend v4.0 — https://youtube-video-downloader-production-24db.up.railway.app\n")
-    print("   Caption URLs cached at Analyse time — View is now instant!\n")
+    print("\nVIDown Backend v4.1\n")
+    if FRONTEND_DIST.exists():
+        print("   Serving built frontend from frontend/dist on http://0.0.0.0:8080\n")
+    else:
+        print("   Frontend build not found. Run `npm run build` in frontend/,")
+        print("   or use the Vite dev server (npm run dev on :5173) during development.\n")
     app.run(host="0.0.0.0", port=8080, debug=False, threaded=True)
