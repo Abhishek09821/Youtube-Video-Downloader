@@ -1,0 +1,9 @@
+.page-title { font-size: clamp(30px, 5vw, 44px); margin: 14px 0; }
+.page-lede { font-size: 17px; max-width: 620px; }
+.narrow { max-width: 720px; }
+.feature-grid { grid-template-columns: repeat(3, 1fr); margin-top: 40px; }
+.feature-card { padding: 24px; }
+.feature-card h3 { font-size: 17px; margin-bottom: 8px; }
+.prose { margin-top: 28px; display: flex; flex-direction: column; gap: 16px; font-size: 16px; }
+.prose strong { color: var(--text); }
+@media (max-width: 860px) { .feature-grid { grid-template-columns: 1fr; } }
