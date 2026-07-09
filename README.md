@@ -6,7 +6,7 @@
   <img src="assets/logo.jpg" alt="Project Logo" width="170">
 </p>
 
-<h1 align="center">🎬 YouTube Video Downloader</h1>
+<h1 align="center"> YouTube Video Downloader</h1>
 
 <p align="center">
 A modern YouTube Video Downloader built with <b>React</b>, <b>Flask</b> and <b>yt-dlp</b>.
