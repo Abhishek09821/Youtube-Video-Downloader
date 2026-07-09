@@ -28,21 +28,21 @@ Download Videos, Audio and Subtitles with a clean, fast and responsive interface
 
 ---
 
-# 🚀 Features
+# FEATURES:
 
 - 🎥 Download YouTube Videos
 - 🎵 Extract High Quality Audio
-- 📝 Subtitle Preview
-- 🌍 Multi-language Subtitle Support
-- ⚡ Fast Download Processing
-- 🌙 Modern Dark UI
-- 📱 Responsive Design
-- 🔥 React + Flask Architecture
-- 🚀 Powered by yt-dlp
+- Subtitle Preview
+- Multi-language Subtitle Support
+- Fast Download Processing
+- Modern Dark UI
+- Responsive Design
+- React + Flask Architecture
+- Powered by yt-dlp
 
 ---
 
-# 🎥 Demo
+# DEMO VIDEO
 
 <p align="center">
 <img src="assets/demo.gif" width="100%">
@@ -50,7 +50,7 @@ Download Videos, Audio and Subtitles with a clean, fast and responsive interface
 
 ---
 
-# 📸 Application Preview
+# APPLICATION PREVIEW 
 
 <p align="center">
 <img src="assets/home.png" width="100%">
@@ -102,35 +102,6 @@ Youtube-Video-Downloader
 
 ```bash
 git clone https://github.com/Abhishek09821/Youtube-Video-Downloader.git
-```
-
-### Backend
-
-```bash
-pip install -r requirements.txt
-
-python server.py
-```
-
-### Frontend
-
-```bash
-cd frontend
-
-npm install
-
-cp .env.example .env
-
-npm run dev
-```
-
----
-
-# 🌐 Environment Variable
-
-```env
-VITE_API_BASE=http://localhost:8080
-```
 
 ---
 
@@ -145,7 +116,7 @@ VITE_API_BASE=http://localhost:8080
 
 ---
 
-# 🗺️ Roadmap
+#Roadmap
 
 - ✅ Video Download
 - ✅ Audio Download
