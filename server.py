@@ -1,7 +1,15 @@
 """
-VIDown — Backend v4.1
-KEY FIX: Caption URLs cached at /api/info time.
-/api/subtitles/view just downloads from cached URL — no yt-dlp call, instant.
+VIDown — Backend v5.0
+MAJOR UPGRADE: Production-grade subtitle system with automatic AI fallback.
+
+Subtitle Pipeline (4-step fallback):
+1. Try manual YouTube subtitles
+2. Try auto-generated YouTube subtitles
+3. If unavailable or fails → Automatically generate with AI (Whisper)
+4. Cache results to avoid regeneration
+
+Frontend receives subtitles exactly the same way regardless of source.
+User should almost never see "Subtitles unavailable."
 
 Serves the built React frontend (frontend/dist) when present, with an SPA
 fallback so client-side routes (e.g. /download) resolve on direct load/refresh.
@@ -11,51 +19,81 @@ from flask import Flask, request, jsonify, send_file, send_from_directory
 from flask_cors import CORS
 import yt_dlp
 import os, threading, uuid, time, re, json
+import shutil, tempfile, subprocess
 import urllib.request, urllib.error
 from pathlib import Path
 
-# ── Frontend build directory (output of `npm run build` in frontend/) ──
-FRONTEND_DIST = Path(__file__).parent / "frontend" / "dist"
+# Import new production subtitle system
+try:
+    from config import (
+        FRONTEND_DIST, DOWNLOAD_DIR, CORS_ORIGINS,
+        YDL_BASE_OPTS, BROWSER_HEADERS, ENABLE_AI_SUBTITLES
+    )
+    from models import SubtitleFormat, ProgressUpdate
+    from services.subtitle_service import subtitle_service
+    from services.subtitle_formatter import subtitle_formatter
+    from services.subtitle_cache import subtitle_cache
+    from utils.logging_utils import get_logger
+    from utils.video_utils import extract_video_id, format_bytes
+    
+    PRODUCTION_SUBTITLE_SYSTEM = True
+    logger = get_logger(__name__)
+    logger.info("✓ Production subtitle system loaded with AI fallback")
+except ImportError as e:
+    # Fallback to legacy system if new modules not available
+    PRODUCTION_SUBTITLE_SYSTEM = False
+    print(f"⚠ Using legacy subtitle system (production modules not found: {e})")
+    
+    # Legacy configuration
+    FRONTEND_DIST = Path(__file__).parent / "frontend" / "dist"
+    DOWNLOAD_DIR = Path("downloads")
+    DOWNLOAD_DIR.mkdir(exist_ok=True)
+    
+    CORS_ORIGINS = [
+        o.strip()
+        for o in os.environ.get(
+            "VIDOWN_CORS_ORIGINS",
+            "http://localhost:5173,http://127.0.0.1:5173",
+        ).split(",")
+        if o.strip()
+    ]
+    
+    BROWSER_HEADERS = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept-Language": "en-US,en;q=0.9,hi;q=0.8",
+        "Accept": "*/*",
+        "Referer": "https://www.youtube.com/",
+        "Origin": "https://www.youtube.com",
+    }
+    
+    YDL_BASE_OPTS = {
+        "quiet": True,
+        "no_warnings": True,
+        "socket_timeout": 20,
+        "http_headers": BROWSER_HEADERS,
+    }
+    
+    def format_bytes(b):
+        if not b: return "0 B"
+        for u in ["B","KB","MB","GB"]:
+            if b < 1024: return f"{b:.1f} {u}"
+            b /= 1024
+        return f"{b:.1f} TB"
 
 app = Flask(__name__, static_folder=None)
 
 # ── CORS: only needed for the React dev server (Vite). In production the
 #    frontend is served from this same origin, so no CORS is required.
-DEV_ORIGINS = [
-    o.strip()
-    for o in os.environ.get(
-        "VIDOWN_CORS_ORIGINS",
-        "http://localhost:5173,http://127.0.0.1:5173",
-    ).split(",")
-    if o.strip()
-]
-CORS(app, resources={r"/api/*": {"origins": DEV_ORIGINS}})
+CORS(app, resources={r"/api/*": {"origins": CORS_ORIGINS}})
 
-DOWNLOAD_DIR = Path("downloads")
-DOWNLOAD_DIR.mkdir(exist_ok=True)
-
+# ── Job storage for downloads and subtitle generation ──
 jobs = {}
 
-# ── Caption URL cache: {video_id: {lang: {url, kind}, ...}, ...}
+# ── Legacy caption URL cache (kept for backward compatibility) ──
 caption_cache = {}
 
 AUDIO_CODEC_MAP = {
     "mp3":"mp3","flac":"flac","wav":"wav","aac":"aac","ogg":"vorbis","m4a":"m4a",
-}
-
-BROWSER_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-    "Accept-Language": "en-US,en;q=0.9,hi;q=0.8",
-    "Accept": "*/*",
-    "Referer": "https://www.youtube.com/",
-    "Origin": "https://www.youtube.com",
-}
-
-YDL_BASE = {
-    "quiet": True,
-    "no_warnings": True,
-    "socket_timeout": 20,
-    "http_headers": BROWSER_HEADERS,
 }
 
 # ─────────────────────────────────────────────────────────────
@@ -64,6 +102,9 @@ YDL_BASE = {
 
 def _extract_video_id(url):
     """Extract YouTube video ID from any URL format."""
+    if PRODUCTION_SUBTITLE_SYSTEM:
+        return extract_video_id(url)
+    # Legacy fallback
     patterns = [
         r"(?:v=|youtu\.be/|shorts/|embed/|watch\?v=)([A-Za-z0-9_-]{11})",
     ]
@@ -86,7 +127,6 @@ def _pick_best_fmt(fmt_list):
             return f
     return None
 
-
 def _build_caption_map(info):
     """
     Build a flat map of {lang_code: {url, kind}} from yt-dlp info.
@@ -108,7 +148,6 @@ def _build_caption_map(info):
                 cap_map[lang] = {"url": entry["url"], "kind": "auto"}
 
     return cap_map
-
 
 def _resolve_lang(cap_map, lang):
     """
@@ -216,13 +255,6 @@ def _parse_captions(raw):
     return lines_out
 
 
-def format_bytes(b):
-    if not b: return "0 B"
-    for u in ["B","KB","MB","GB"]:
-        if b < 1024: return f"{b:.1f} {u}"
-        b /= 1024
-    return f"{b:.1f} TB"
-
 
 def make_progress_hook(job_id):
     def hook(d):
@@ -252,13 +284,223 @@ def clean_job(job_id, delay=300):
     threading.Thread(target=_c, daemon=True).start()
 
 
-# ─────────────────────────────────────────────
+def _log(level, msg):
+    try:
+        getattr(logger, level)(msg)
+    except Exception:
+        print(f"[{level}] {msg}")
+
+
+def _probe_height(path):
+    """Return the video height in pixels, or 0 if it can't be determined."""
+    try:
+        out = subprocess.run(
+            ["ffprobe", "-v", "error", "-select_streams", "v:0",
+             "-show_entries", "stream=height", "-of", "csv=p=0", str(path)],
+            capture_output=True, text=True, timeout=30,
+        )
+        return int((out.stdout or "0").strip().split("\n")[0] or 0)
+    except Exception:
+        return 0
+
+
+def _probe_duration(path):
+    """Return the video duration in seconds (float), or 0."""
+    try:
+        out = subprocess.run(
+            ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+             "-of", "csv=p=0", str(path)],
+            capture_output=True, text=True, timeout=30,
+        )
+        return float((out.stdout or "0").strip() or 0)
+    except Exception:
+        return 0.0
+
+
+def _probe_fps(path):
+    """Return the video frame rate as a float, defaulting to 30."""
+    try:
+        out = subprocess.run(
+            ["ffprobe", "-v", "error", "-select_streams", "v:0",
+             "-show_entries", "stream=r_frame_rate", "-of", "csv=p=0", str(path)],
+            capture_output=True, text=True, timeout=30,
+        )
+        raw = (out.stdout or "").strip().split("\n")[0]
+        if "/" in raw:
+            num, den = raw.split("/")
+            den = float(den)
+            return float(num) / den if den else 30.0
+        return float(raw) if raw else 30.0
+    except Exception:
+        return 30.0
+
+
+def _realesrgan_bin():
+    """Return a usable Real-ESRGAN binary path, or None if unavailable."""
+    if os.environ.get("ENABLE_REALESRGAN", "True").lower() != "true":
+        return None
+    binname = os.environ.get("REALESRGAN_BIN", "realesrgan-ncnn-vulkan")
+    if os.path.isfile(binname) and os.access(binname, os.X_OK):
+        return binname
+    return shutil.which(binname)
+
+
+def _enhance_with_realesrgan(src_path, target_height, job_id, binp):
+    """
+    True neural super-resolution using Real-ESRGAN (ncnn-vulkan).
+
+    Pipeline: extract frames → upscale each frame with Real-ESRGAN (x4) →
+    reassemble at the original frame rate, downscale to the exact target
+    height, and mux the original audio back in.
+
+    Returns the enhanced .mp4 path, or None to signal the caller to fall back.
+    """
+    duration = _probe_duration(src_path)
+    max_sec = int(os.environ.get("REALESRGAN_MAX_SECONDS", "180"))
+    if duration and duration > max_sec:
+        _log("warning",
+             f"Real-ESRGAN skipped: {duration:.0f}s exceeds cap {max_sec}s")
+        return None
+
+    model = os.environ.get("REALESRGAN_MODEL", "realesrgan-x4plus")
+    fps = _probe_fps(src_path)
+    out_path = Path(src_path).with_name(f"{Path(src_path).stem}_esr{target_height}.mp4")
+    work = Path(tempfile.mkdtemp(prefix="vdown_esr_"))
+    frames_in = work / "in"
+    frames_out = work / "out"
+    frames_in.mkdir()
+    frames_out.mkdir()
+
+    try:
+        jobs[job_id].update({"status": "enhancing", "progress": 96})
+        # 1) Extract frames (lossless PNG)
+        subprocess.run(
+            ["ffmpeg", "-y", "-i", str(src_path), "-qscale:v", "1",
+             str(frames_in / "frame_%08d.png")],
+            check=True, capture_output=True, timeout=1800,
+        )
+
+        # 2) Neural upscale every frame (x4)
+        subprocess.run(
+            [binp, "-i", str(frames_in), "-o", str(frames_out),
+             "-n", model, "-s", "4", "-f", "png"],
+            check=True, capture_output=True, timeout=7200,
+        )
+
+        jobs[job_id].update({"progress": 98})
+        # 3) Reassemble + downscale to exact target + remux original audio
+        subprocess.run(
+            ["ffmpeg", "-y",
+             "-framerate", f"{fps:.5f}",
+             "-i", str(frames_out / "frame_%08d.png"),
+             "-i", str(src_path),
+             "-map", "0:v:0", "-map", "1:a:0?",
+             "-vf", f"scale=-2:{target_height}:flags=lanczos",
+             "-c:v", "libx264", "-preset", "medium", "-crf", "18",
+             "-pix_fmt", "yuv420p",
+             "-c:a", "aac", "-b:a", "192k",
+             "-movflags", "+faststart", "-shortest",
+             str(out_path)],
+            check=True, capture_output=True, timeout=3600,
+        )
+
+        if out_path.exists() and out_path.stat().st_size > 0:
+            _log("info", f"Real-ESRGAN enhance complete: {out_path.name}")
+            return out_path
+        return None
+    except Exception as e:
+        _log("warning", f"Real-ESRGAN enhance failed, will fall back: {e}")
+        return None
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
+
+
+def _enhance_ffmpeg(src_path, target_height, job_id):
+    """
+    Fallback upscaler: high-quality FFmpeg Lanczos scaling + adaptive unsharp
+    masking, re-encoded with libx264. GPU-free; runs everywhere.
+
+    Returns the enhanced .mp4 path, or the original path on failure.
+    """
+    out_path = Path(src_path).with_name(f"{Path(src_path).stem}_ai{target_height}.mp4")
+    jobs[job_id].update({"status": "enhancing", "progress": 96})
+    vf = f"scale=-2:{target_height}:flags=lanczos,unsharp=5:5:0.9:5:5:0.3"
+    cmd = [
+        "ffmpeg", "-y", "-i", str(src_path),
+        "-vf", vf,
+        "-c:v", "libx264", "-preset", "medium", "-crf", "18",
+        "-pix_fmt", "yuv420p",
+        "-c:a", "aac", "-b:a", "192k",
+        "-movflags", "+faststart",
+        str(out_path),
+    ]
+    try:
+        subprocess.run(cmd, check=True, capture_output=True, timeout=3600)
+        if out_path.exists() and out_path.stat().st_size > 0:
+            return out_path
+    except Exception as e:
+        _log("warning", f"FFmpeg enhance failed, keeping original: {e}")
+    return Path(src_path)
+
+
+def ai_enhance_video(src_path, target_height, job_id):
+    """
+    AI Video Enhance — upscale a lower-resolution source toward `target_height`.
+
+    Prefers true neural super-resolution via Real-ESRGAN when its binary is
+    available; otherwise falls back to a high-quality FFmpeg Lanczos + unsharp
+    upscaler. Returns the path to the enhanced file (or the original on no-op).
+    """
+    src_path = Path(src_path)
+    src_h = _probe_height(src_path)
+    if src_h and src_h >= target_height:
+        # Already at/above target — nothing to enhance.
+        return src_path
+
+    jobs[job_id].update({"status": "enhancing", "progress": 96})
+
+    # 1) Try true neural upscaling first.
+    binp = _realesrgan_bin()
+    if binp:
+        _log("info", f"Using Real-ESRGAN backend: {binp}")
+        result = _enhance_with_realesrgan(src_path, target_height, job_id, binp)
+        if result and Path(result) != src_path:
+            try:
+                src_path.unlink(missing_ok=True)
+            except Exception:
+                pass
+            return result
+
+    # 2) Fallback: FFmpeg high-quality upscale.
+    result = _enhance_ffmpeg(src_path, target_height, job_id)
+    if Path(result) != src_path:
+        try:
+            src_path.unlink(missing_ok=True)
+        except Exception:
+            pass
+    return result
+
+
+# ─────────────────────────────────────────────────────────────
 # ROUTES
-# ─────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────
 
 @app.route("/api/health")
 def health():
-    return jsonify({"status":"ok","version":"4.0.0"})
+    system_info = {
+        "status": "ok",
+        "version": "5.0.0",
+        "subtitle_system": "production_ai" if PRODUCTION_SUBTITLE_SYSTEM else "legacy",
+    }
+    
+    if PRODUCTION_SUBTITLE_SYSTEM:
+        system_info["features"] = {
+            "ai_subtitles": ENABLE_AI_SUBTITLES,
+            "subtitle_cache": True,
+            "auto_fallback": True,
+        }
+    
+    return jsonify(system_info)
 
 
 @app.route("/api/info", methods=["POST"])
@@ -272,12 +514,12 @@ def get_info():
     if not url:
         return jsonify({"error":"URL required"}), 400
 
-    opts = {**YDL_BASE, "skip_download": True}
+    opts = {**YDL_BASE_OPTS, "skip_download": True}
     try:
         with yt_dlp.YoutubeDL(opts) as ydl:
             info = ydl.extract_info(url, download=False)
 
-        # ── Cache caption URLs ──
+        # ── Cache caption URLs (legacy system) ──
         vid_id  = _extract_video_id(url)
         cap_map = _build_caption_map(info)
         caption_cache[vid_id] = {
@@ -298,7 +540,7 @@ def get_info():
         manual_langs = [k for k,v in cap_map.items() if v["kind"]=="manual"]
         auto_langs   = [k for k,v in cap_map.items() if v["kind"]=="auto"]
 
-        return jsonify({
+        response = {
             "title":       info.get("title","Unknown"),
             "channel":     info.get("uploader","Unknown"),
             "duration":    info.get("duration_string") or f"{info.get('duration',0)}s",
@@ -311,7 +553,14 @@ def get_info():
             "auto_langs":    auto_langs,
             "all_caption_langs": sorted(cap_map.keys()),
             "caption_cached": True,
-        })
+        }
+        
+        # Add AI subtitle capability info
+        if PRODUCTION_SUBTITLE_SYSTEM and ENABLE_AI_SUBTITLES:
+            response["ai_subtitles_available"] = True
+            response["subtitle_note"] = "AI generation available if YouTube captions unavailable"
+        
+        return jsonify(response)
     except Exception as e:
         return jsonify({"error":str(e)}), 400
 
@@ -319,9 +568,15 @@ def get_info():
 @app.route("/api/subtitles/view", methods=["POST"])
 def view_subtitles():
     """
-    Fast path: use cached caption URL from /api/info.
-    Only does a small HTTP fetch — no yt-dlp, no 10s wait.
-    Falls back to full yt-dlp fetch if cache miss.
+    View subtitles with AUTOMATIC AI FALLBACK (Production v5.0).
+    
+    Pipeline:
+    1. Check cache
+    2. Try manual YouTube subtitles
+    3. Try auto-generated YouTube subtitles
+    4. Auto-generate with AI (Whisper) if YouTube fails
+    
+    User should almost never see "Subtitles unavailable."
     """
     data = request.json or {}
     url  = (data.get("url") or "").strip()
@@ -329,10 +584,53 @@ def view_subtitles():
     if not url:
         return jsonify({"error":"URL required"}), 400
 
+    # ── PRODUCTION SYSTEM: AI-powered fallback ──
+    if PRODUCTION_SUBTITLE_SYSTEM:
+        try:
+            if PRODUCTION_SUBTITLE_SYSTEM:
+                logger.info(f"View subtitles (AI-enabled): url={url}, lang={lang}")
+            
+            # Get subtitles with full fallback pipeline
+            result = subtitle_service.get_subtitles(url, lang)
+            
+            # Convert to frontend format (unchanged from v4.1)
+            response = {
+                "lines": [line.to_dict() for line in result.lines],
+                "lang": result.metadata.language,
+                "kind": result.metadata.source.value,
+                "source": result.metadata.source.value,
+                "count": result.metadata.line_count,
+            }
+            
+            if result.metadata.model_used:
+                response["model"] = result.metadata.model_used
+            
+            if PRODUCTION_SUBTITLE_SYSTEM:
+                logger.info(
+                    f"Subtitles delivered: {result.metadata.line_count} lines, "
+                    f"source={result.metadata.source.value}"
+                )
+            
+            return jsonify(response)
+            
+        except Exception as e:
+            error_msg = str(e)
+            if PRODUCTION_SUBTITLE_SYSTEM:
+                logger.error(f"Subtitle retrieval failed: {e}")
+            
+            # User-friendly error messages
+            if "too long" in error_msg.lower():
+                return jsonify({"error": "Video too long for AI generation. Try shorter videos."}), 400
+            elif "ffmpeg" in error_msg.lower():
+                return jsonify({"error": "FFmpeg not found. AI subtitles require FFmpeg installation."}), 500
+            else:
+                return jsonify({"error": f"Unable to retrieve subtitles: {error_msg}"}), 500
+
+    # ── LEGACY SYSTEM FALLBACK (v4.1 logic) ──
     vid_id = _extract_video_id(url)
     cache  = caption_cache.get(vid_id)
 
-    # ── FAST PATH: use cached caption URLs ──
+    # Fast path: use cached caption URLs
     if cache and cache.get("cap_map"):
         cap_map = cache["cap_map"]
         cap_url, kind, matched = _resolve_lang(cap_map, lang)
@@ -357,23 +655,21 @@ def view_subtitles():
             })
         except urllib.error.HTTPError as e:
             if e.code == 429:
-                # Caption URL expired or rate limited — do full refetch
                 caption_cache.pop(vid_id, None)
                 return jsonify({"error":"Rate limited (429). Click Analyse again, then retry."}), 429
             return jsonify({"error":f"HTTP {e.code} fetching captions."}), 500
         except Exception as e:
             return jsonify({"error":str(e)}), 500
 
-    # ── SLOW FALLBACK: cache miss — do full yt-dlp fetch ──
+    # Slow fallback: cache miss — do full yt-dlp fetch
     result, done = {}, threading.Event()
 
     def _worker():
         try:
-            opts = {**YDL_BASE, "skip_download": True}
+            opts = {**YDL_BASE_OPTS, "skip_download": True}
             with yt_dlp.YoutubeDL(opts) as ydl:
                 info = ydl.extract_info(url, download=False)
 
-            # Rebuild cache for next time
             cap_map = _build_caption_map(info)
             caption_cache[vid_id] = {"cap_map": cap_map, "cached_at": time.time()}
 
@@ -416,6 +712,10 @@ def view_subtitles():
 
 @app.route("/api/subtitles/download", methods=["POST"])
 def download_subtitle_file():
+    """
+    Download subtitle file with AUTOMATIC AI FALLBACK (Production v5.0).
+    Returns job_id for progress polling.
+    """
     data = request.json or {}
     url  = (data.get("url") or "").strip()
     lang = (data.get("lang") or "en").strip()
@@ -426,6 +726,74 @@ def download_subtitle_file():
     job_id = str(uuid.uuid4())[:8]
     jobs[job_id] = {"status":"starting","progress":5,"type":"subtitle"}
 
+    # ── PRODUCTION SYSTEM: AI-powered subtitle download ──
+    if PRODUCTION_SUBTITLE_SYSTEM:
+        def run():
+            try:
+                vid_id = _extract_video_id(url)
+                
+                if PRODUCTION_SUBTITLE_SYSTEM:
+                    logger.info(
+                        f"Subtitle download job {job_id}: "
+                        f"url={url}, lang={lang}, format={fmt}"
+                    )
+                
+                # Progress callback
+                def progress_callback(update):
+                    jobs[job_id]['progress'] = update.progress
+                    jobs[job_id]['status'] = update.stage
+                
+                # Get subtitles with full fallback pipeline
+                try:
+                    subtitle_format = SubtitleFormat(fmt)
+                except ValueError:
+                    jobs[job_id].update({
+                        "status":"error",
+                        "error":f"Invalid format: {fmt}"
+                    })
+                    return
+                
+                result = subtitle_service.get_subtitles(
+                    url,
+                    lang,
+                    progress_callback=progress_callback
+                )
+                
+                jobs[job_id]["progress"] = 80
+                
+                # Format subtitles
+                content = subtitle_formatter.format(result.lines, subtitle_format)
+                
+                # Save to file
+                filename = f"{job_id}_subs_{result.metadata.language}.{fmt}"
+                out = DOWNLOAD_DIR / filename
+                out.write_text(content, encoding="utf-8")
+                
+                jobs[job_id].update({
+                    "status":"done","progress":100,
+                    "filepath":str(out),
+                    "filename":f"subtitles_{result.metadata.language}.{fmt}",
+                    "source": result.metadata.source.value,
+                    "line_count": result.metadata.line_count,
+                })
+                
+                if PRODUCTION_SUBTITLE_SYSTEM:
+                    logger.info(
+                        f"Job {job_id} completed: {result.metadata.line_count} lines, "
+                        f"source={result.metadata.source.value}"
+                    )
+                
+                clean_job(job_id)
+                
+            except Exception as e:
+                if PRODUCTION_SUBTITLE_SYSTEM:
+                    logger.error(f"Job {job_id} failed: {e}")
+                jobs[job_id].update({"status":"error","error":str(e)})
+
+        threading.Thread(target=run, daemon=True).start()
+        return jsonify({"job_id": job_id})
+
+    # ── LEGACY SYSTEM (v4.1 logic) ──
     def run():
         vid_id = _extract_video_id(url)
         cache  = caption_cache.get(vid_id)
@@ -440,7 +808,7 @@ def download_subtitle_file():
         if not cap_url:
             try:
                 jobs[job_id]["progress"] = 10
-                opts = {**YDL_BASE, "skip_download": True}
+                opts = {**YDL_BASE_OPTS, "skip_download": True}
                 with yt_dlp.YoutubeDL(opts) as ydl:
                     info = ydl.extract_info(url, download=False)
                 cap_map = _build_caption_map(info)
@@ -502,36 +870,64 @@ def download_video():
     url     = (data.get("url") or "").strip()
     quality = (data.get("quality") or "1080p").replace("p","")
     fmt     = (data.get("format") or "mp4").lower()
+    enhance = bool(data.get("enhance"))
     if not url: return jsonify({"error":"URL required"}), 400
+
+    try:
+        target_h = int(quality)
+    except ValueError:
+        target_h = 1080
 
     job_id   = str(uuid.uuid4())[:8]
     out_path = DOWNLOAD_DIR / f"{job_id}.%(ext)s"
-    fmt_str  = (
-        f"bestvideo[height<={quality}][ext={fmt}]+bestaudio[ext=m4a]"
-        f"/bestvideo[height<={quality}]+bestaudio/best[height<={quality}]/best"
-    )
+
+    # When AI enhancing, grab the BEST available source (no height cap) so the
+    # upscaler has the highest-quality input to work from.
+    if enhance:
+        fmt_str = "bestvideo+bestaudio/best"
+    else:
+        fmt_str = (
+            f"bestvideo[height<={quality}][ext={fmt}]+bestaudio[ext=m4a]"
+            f"/bestvideo[height<={quality}]+bestaudio/best[height<={quality}]/best"
+        )
     opts = {
-        **YDL_BASE,
+        **YDL_BASE_OPTS,
         "format":fmt_str,"outtmpl":str(out_path),
         "merge_output_format":fmt,
         "progress_hooks":[make_progress_hook(job_id)],
         "socket_timeout":30,
         "postprocessors":[{"key":"FFmpegVideoConvertor","preferedformat":fmt}],
     }
-    jobs[job_id] = {"status":"starting","progress":0,"type":"video"}
+    jobs[job_id] = {"status":"starting","progress":0,"type":"video","enhance":enhance}
 
     def run():
         try:
             with yt_dlp.YoutubeDL(opts) as ydl:
                 info = ydl.extract_info(url, download=True)
             title = info.get("title","video")
+            src = None
             for ext in [fmt,"mp4","mkv","webm"]:
                 p = DOWNLOAD_DIR / f"{job_id}.{ext}"
                 if p.exists():
-                    jobs[job_id].update({"status":"done","progress":100,
-                        "filepath":str(p),"filename":f"{title[:60]}.{ext}"})
-                    clean_job(job_id); return
-            jobs[job_id].update({"status":"error","error":"Output file not found."})
+                    src = p
+                    break
+            if not src:
+                jobs[job_id].update({"status":"error","error":"Output file not found."})
+                return
+
+            final = src
+            final_ext = src.suffix.lstrip(".")
+            if enhance:
+                final = ai_enhance_video(src, target_h, job_id)
+                final_ext = final.suffix.lstrip(".")
+
+            tag = f" [AI {target_h}p]" if enhance else ""
+            jobs[job_id].update({
+                "status":"done","progress":100,
+                "filepath":str(final),
+                "filename":f"{title[:60]}{tag}.{final_ext}",
+            })
+            clean_job(job_id)
         except Exception as e:
             jobs[job_id].update({"status":"error","error":str(e)})
 
@@ -551,7 +947,7 @@ def download_audio():
     job_id   = str(uuid.uuid4())[:8]
     out_path = DOWNLOAD_DIR / f"{job_id}.%(ext)s"
     opts = {
-        **YDL_BASE,
+        **YDL_BASE_OPTS,
         "format":"bestaudio/best","outtmpl":str(out_path),
         "progress_hooks":[make_progress_hook(job_id)],
         "socket_timeout":30,
@@ -625,10 +1021,42 @@ def serve_frontend(path):
 
 
 if __name__ == "__main__":
-    print("\nVIDown Backend v4.1\n")
-    if FRONTEND_DIST.exists():
-        print("   Serving built frontend from frontend/dist on http://0.0.0.0:8080\n")
+    print("\n" + "="*60)
+    print("VIDown Backend v5.0 — Production Subtitle System")
+    print("="*60)
+    
+    if PRODUCTION_SUBTITLE_SYSTEM:
+        print("\n✓ Production subtitle system with AI fallback ENABLED")
+        if ENABLE_AI_SUBTITLES:
+            from services.whisper_service import whisper_service
+            print(f"  • Whisper model: {whisper_service.model_name}")
+            print(f"  • Device: {whisper_service.device}")
+            print(f"  • AI fallback: ACTIVE")
+        else:
+            print("  • AI fallback: DISABLED (set ENABLE_AI_SUBTITLES=True)")
+        
+        # Check FFmpeg
+        try:
+            from services.whisper_service import whisper_service
+            if whisper_service.check_ffmpeg():
+                print("  • FFmpeg: FOUND")
+            else:
+                print("  ⚠ FFmpeg: NOT FOUND (required for AI subtitles)")
+        except:
+            pass
     else:
-        print("   Frontend build not found. Run `npm run build` in frontend/,")
-        print("   or use the Vite dev server (npm run dev on :5173) during development.\n")
+        print("\n⚠ Using LEGACY subtitle system (v4.1)")
+        print("  Install production modules to enable AI fallback:")
+        print("  pip install -r requirements.txt")
+    
+    if FRONTEND_DIST.exists():
+        print(f"\n✓ Serving built frontend from {FRONTEND_DIST}")
+        print(f"  Access at: http://0.0.0.0:8080")
+    else:
+        print(f"\n⚠ Frontend build not found at {FRONTEND_DIST}")
+        print("  Run: cd frontend && npm run build")
+        print("  Or use Vite dev server: cd frontend && npm run dev")
+    
+    print("\n" + "="*60 + "\n")
+    
     app.run(host="0.0.0.0", port=8080, debug=False, threaded=True)

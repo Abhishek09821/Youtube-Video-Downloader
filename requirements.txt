@@ -3,3 +3,20 @@ flask-cors>=4.0.0
 
 yt-dlp
 gunicorn
+
+# AI Subtitle Generation
+openai-whisper>=20231117
+torch>=2.0.0
+torchaudio>=2.0.0
+
+# Audio Processing
+ffmpeg-python>=0.2.0
+pydub>=0.25.1
+
+# Async & Background Jobs
+celery>=5.3.0
+redis>=5.0.0
+
+# Utilities
+python-dotenv>=1.0.0
+filelock>=3.13.0

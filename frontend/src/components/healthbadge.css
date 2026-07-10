@@ -1,4 +1,0 @@
-.health { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); background: var(--bg-surface); border: 1px solid var(--border); padding: 6px 12px; border-radius: 100px; }
-.health-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); }
-.health.on .health-dot { background: var(--positive); box-shadow: 0 0 8px rgba(38,166,154,0.6); }
-.health.off .health-dot { background: var(--negative); }

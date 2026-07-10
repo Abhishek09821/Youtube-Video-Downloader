@@ -1,0 +1,158 @@
+{
+  "lines": [
+    {
+      "text": "[Music]",
+      "time": "00:00",
+      "start_ms": 840,
+      "end_ms": 8160
+    },
+    {
+      "text": "[Praise]",
+      "time": "00:05",
+      "start_ms": 5990,
+      "end_ms": 11120
+    },
+    {
+      "text": "Come my",
+      "time": "00:08",
+      "start_ms": 8160,
+      "end_ms": 15000
+    },
+    {
+      "text": "love into your arms",
+      "time": "00:11",
+      "start_ms": 11120,
+      "end_ms": 18840
+    },
+    {
+      "text": "O my God",
+      "time": "00:39",
+      "start_ms": 39000,
+      "end_ms": 42840
+    },
+    {
+      "text": "[Music] O my God my",
+      "time": "00:43",
+      "start_ms": 43720,
+      "end_ms": 52160
+    },
+    {
+      "text": "heart fell in love unaware of",
+      "time": "00:45",
+      "start_ms": 45719,
+      "end_ms": 58359
+    },
+    {
+      "text": "where I came from O my God my heart fell in love don't know",
+      "time": "00:52",
+      "start_ms": 52160,
+      "end_ms": 65160
+    },
+    {
+      "text": "when this accident happened O my",
+      "time": "00:58",
+      "start_ms": 58359,
+      "end_ms": 65160
+    },
+    {
+      "text": "God I will come only in your feelings",
+      "time": "01:19",
+      "start_ms": 79840,
+      "end_ms": 87880
+    },
+    {
+      "text": "I will remain in your eyelids my",
+      "time": "01:23",
+      "start_ms": 83920,
+      "end_ms": 93159
+    },
+    {
+      "text": "ex will be in your memories",
+      "time": "01:27",
+      "start_ms": 87880,
+      "end_ms": 99000
+    },
+    {
+      "text": "no one will find my address O my God my heart fell in love",
+      "time": "01:33",
+      "start_ms": 93159,
+      "end_ms": 105399
+    },
+    {
+      "text": "unaware of where I came from O my",
+      "time": "01:39",
+      "start_ms": 99000,
+      "end_ms": 111159
+    },
+    {
+      "text": "God my heart fell in love don't know when this accident happened",
+      "time": "01:45",
+      "start_ms": 105399,
+      "end_ms": 114159
+    },
+    {
+      "text": "Come on Salam don't do this Sim I will die in your arms come on my",
+      "time": "02:11",
+      "start_ms": 131000,
+      "end_ms": 142720
+    },
+    {
+      "text": "love don't do this cruelty I will",
+      "time": "02:16",
+      "start_ms": 136840,
+      "end_ms": 145560
+    },
+    {
+      "text": "die in your arms",
+      "time": "02:22",
+      "start_ms": 142720,
+      "end_ms": 150400
+    },
+    {
+      "text": "lonely nights there will be talks",
+      "time": "02:25",
+      "start_ms": 145560,
+      "end_ms": 155840
+    },
+    {
+      "text": "in those talks nights will change ever since",
+      "time": "02:30",
+      "start_ms": 150400,
+      "end_ms": 162400
+    },
+    {
+      "text": "my world has changed O",
+      "time": "02:35",
+      "start_ms": 155840,
+      "end_ms": 168280
+    },
+    {
+      "text": "my God my heart fell in love unaware of where",
+      "time": "02:42",
+      "start_ms": 162400,
+      "end_ms": 174599
+    },
+    {
+      "text": "I came from O my God my heart fell in love do",
+      "time": "02:48",
+      "start_ms": 168280,
+      "end_ms": 179480
+    },
+    {
+      "text": "n't know when this accident happened A",
+      "time": "02:54",
+      "start_ms": 174599,
+      "end_ms": 179480
+    }
+  ],
+  "metadata": {
+    "language": "en",
+    "source": "youtube_auto",
+    "line_count": 24,
+    "video_id": "MnR5YqU-0GI",
+    "generated_at": "2026-07-10T21:04:52.341849",
+    "duration_seconds": null,
+    "model_used": null
+  },
+  "raw_content": "{\n  \"wireMagic\": \"pb3\",\n  \"pens\": [ {\n  \n  } ],\n  \"wsWinStyles\": [ {\n  \n  }, {\n    \"mhModeHint\": 2,\n    \"juJustifCode\": 0,\n    \"sdScrollDir\": 3\n  } ],\n  \"wpWinPositions\": [ {\n  \n  }, {\n    \"apPoint\": 6,\n    \"ahHorPos\": 20,\n    \"avVerPos\": 100,\n    \"rcRows\": 2,\n    \"ccCols\": 40\n  } ],\n  \"events\": [ {\n    \"tStartMs\": 0,\n    \"dDurationMs\": 199090,\n    \"id\": 1,\n    \"wpWinPosId\": 1,\n    \"wsWinStyleId\": 1\n  }, {\n    \"tStartMs\": 840,\n    \"dDurationMs\": 7320,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"[Music]\"\n    } ]\n  }, {\n    \"tStartMs\": 5980,\n    \"dDurationMs\": 2180,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 5990,\n    \"dDurationMs\": 5130,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"[Praise]\"\n    } ]\n  }, {\n    \"tStartMs\": 8150,\n    \"dDurationMs\": 2970,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 8160,\n    \"dDurationMs\": 6840,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"Come \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"my\",\n      \"tOffsetMs\": 880,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 11110,\n    \"dDurationMs\": 3890,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 11120,\n    \"dDurationMs\": 7720,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"love \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"into \",\n      \"tOffsetMs\": 559,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"your \",\n      \"tOffsetMs\": 1118,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"arms\",\n      \"tOffsetMs\": 1677,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 14990,\n    \"dDurationMs\": 3850,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 15000,\n    \"dDurationMs\": 9400,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"Come \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"my\",\n      \"tOffsetMs\": 1680,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 18830,\n    \"dDurationMs\": 5570,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 18840,\n    \"dDurationMs\": 5560,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"love \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"into \",\n      \"tOffsetMs\": 853,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"your \",\n      \"tOffsetMs\": 1706,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"arms\",\n      \"tOffsetMs\": 2559,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 32630,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 32640,\n    \"dDurationMs\": 4299,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"[Music]\"\n    } ]\n  }, {\n    \"tStartMs\": 38990,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 39000,\n    \"dDurationMs\": 3840,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"O \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"my \",\n      \"tOffsetMs\": 580,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"God\",\n      \"tOffsetMs\": 1160,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 43710,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 43720,\n    \"dDurationMs\": 8440,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"[Music] O my God my\"\n    } ]\n  }, {\n    \"tStartMs\": 45709,\n    \"dDurationMs\": 6451,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 45719,\n    \"dDurationMs\": 12640,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"heart \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"fell \",\n      \"tOffsetMs\": 1176,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"in \",\n      \"tOffsetMs\": 2352,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"love \",\n      \"tOffsetMs\": 3528,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"unaware \",\n      \"tOffsetMs\": 4704,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"of\",\n      \"tOffsetMs\": 5880,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 52150,\n    \"dDurationMs\": 6209,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 52160,\n    \"dDurationMs\": 13000,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"where \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"I \",\n      \"tOffsetMs\": 399,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"came \",\n      \"tOffsetMs\": 798,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"from \",\n      \"tOffsetMs\": 1197,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"O \",\n      \"tOffsetMs\": 1596,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"my \",\n      \"tOffsetMs\": 1995,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"God \",\n      \"tOffsetMs\": 2394,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"my \",\n      \"tOffsetMs\": 2793,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"heart \",\n      \"tOffsetMs\": 3192,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"fell \",\n      \"tOffsetMs\": 3591,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"in \",\n      \"tOffsetMs\": 3990,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"love \",\n      \"tOffsetMs\": 4389,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"don't \",\n      \"tOffsetMs\": 4788,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"know\",\n      \"tOffsetMs\": 5187,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 58349,\n    \"dDurationMs\": 6811,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 58359,\n    \"dDurationMs\": 6801,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"when \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"this \",\n      \"tOffsetMs\": 840,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"accident \",\n      \"tOffsetMs\": 1680,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"happened \",\n      \"tOffsetMs\": 2520,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"O \",\n      \"tOffsetMs\": 3360,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"my\",\n      \"tOffsetMs\": 4200,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 73510,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 73520,\n    \"dDurationMs\": 3310,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"[Music]\"\n    } ]\n  }, {\n    \"tStartMs\": 79830,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 79840,\n    \"dDurationMs\": 8040,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"God \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"I \",\n      \"tOffsetMs\": 468,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"will \",\n      \"tOffsetMs\": 936,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"come \",\n      \"tOffsetMs\": 1404,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"only \",\n      \"tOffsetMs\": 1872,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"in \",\n      \"tOffsetMs\": 2340,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"your \",\n      \"tOffsetMs\": 2808,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"feelings\",\n      \"tOffsetMs\": 3276,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 83910,\n    \"dDurationMs\": 3970,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 83920,\n    \"dDurationMs\": 9239,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"I \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"will \",\n      \"tOffsetMs\": 500,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"remain \",\n      \"tOffsetMs\": 1000,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"in \",\n      \"tOffsetMs\": 1500,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"your \",\n      \"tOffsetMs\": 2000,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"eyelids \",\n      \"tOffsetMs\": 2500,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"my\",\n      \"tOffsetMs\": 3000,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 87870,\n    \"dDurationMs\": 5289,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 87880,\n    \"dDurationMs\": 11120,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"ex \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"will \",\n      \"tOffsetMs\": 975,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"be \",\n      \"tOffsetMs\": 1950,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"in \",\n      \"tOffsetMs\": 2925,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"your \",\n      \"tOffsetMs\": 3900,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"memories\",\n      \"tOffsetMs\": 4875,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 93149,\n    \"dDurationMs\": 5851,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 93159,\n    \"dDurationMs\": 12240,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"no \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"one \",\n      \"tOffsetMs\": 409,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"will \",\n      \"tOffsetMs\": 818,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"find \",\n      \"tOffsetMs\": 1227,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"my \",\n      \"tOffsetMs\": 1636,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"address \",\n      \"tOffsetMs\": 2045,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"O \",\n      \"tOffsetMs\": 2454,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"my \",\n      \"tOffsetMs\": 2863,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"God \",\n      \"tOffsetMs\": 3272,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"my \",\n      \"tOffsetMs\": 3681,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"heart \",\n      \"tOffsetMs\": 4090,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"fell \",\n      \"tOffsetMs\": 4499,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"in \",\n      \"tOffsetMs\": 4908,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"love\",\n      \"tOffsetMs\": 5317,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 98990,\n    \"dDurationMs\": 6409,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 99000,\n    \"dDurationMs\": 12159,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"unaware \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"of \",\n      \"tOffsetMs\": 828,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"where \",\n      \"tOffsetMs\": 1656,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"I \",\n      \"tOffsetMs\": 2484,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"came \",\n      \"tOffsetMs\": 3312,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"from \",\n      \"tOffsetMs\": 4140,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"O \",\n      \"tOffsetMs\": 4968,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"my\",\n      \"tOffsetMs\": 5796,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 105389,\n    \"dDurationMs\": 5770,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 105399,\n    \"dDurationMs\": 8760,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"God \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"my \",\n      \"tOffsetMs\": 483,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"heart \",\n      \"tOffsetMs\": 966,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"fell \",\n      \"tOffsetMs\": 1449,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"in \",\n      \"tOffsetMs\": 1932,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"love \",\n      \"tOffsetMs\": 2415,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"don't \",\n      \"tOffsetMs\": 2898,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"know \",\n      \"tOffsetMs\": 3381,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"when \",\n      \"tOffsetMs\": 3864,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"this \",\n      \"tOffsetMs\": 4347,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"accident \",\n      \"tOffsetMs\": 4830,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"happened\",\n      \"tOffsetMs\": 5313,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 111149,\n    \"dDurationMs\": 3010,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 111159,\n    \"dDurationMs\": 3000,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\",\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 123590,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 123600,\n    \"dDurationMs\": 7349,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"[Music]\"\n    } ]\n  }, {\n    \"tStartMs\": 130990,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 131000,\n    \"dDurationMs\": 11720,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"Come \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"on \",\n      \"tOffsetMs\": 373,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"Salam \",\n      \"tOffsetMs\": 746,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"don't \",\n      \"tOffsetMs\": 1119,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"do \",\n      \"tOffsetMs\": 1492,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"this \",\n      \"tOffsetMs\": 1865,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"Sim \",\n      \"tOffsetMs\": 2238,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"I \",\n      \"tOffsetMs\": 2611,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"will \",\n      \"tOffsetMs\": 2984,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"die \",\n      \"tOffsetMs\": 3357,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"in \",\n      \"tOffsetMs\": 3730,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"your \",\n      \"tOffsetMs\": 4103,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"arms \",\n      \"tOffsetMs\": 4476,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"come \",\n      \"tOffsetMs\": 4849,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"on \",\n      \"tOffsetMs\": 5222,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"my\",\n      \"tOffsetMs\": 5595,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 136830,\n    \"dDurationMs\": 5890,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 136840,\n    \"dDurationMs\": 8720,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"love \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"don't \",\n      \"tOffsetMs\": 839,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"do \",\n      \"tOffsetMs\": 1678,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"this \",\n      \"tOffsetMs\": 2517,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"cruelty \",\n      \"tOffsetMs\": 3356,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"I \",\n      \"tOffsetMs\": 4195,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"will\",\n      \"tOffsetMs\": 5034,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 142710,\n    \"dDurationMs\": 2850,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 142720,\n    \"dDurationMs\": 7680,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"die \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"in \",\n      \"tOffsetMs\": 573,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"your \",\n      \"tOffsetMs\": 1146,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"arms\",\n      \"tOffsetMs\": 1719,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 145550,\n    \"dDurationMs\": 4850,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 145560,\n    \"dDurationMs\": 10280,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"lonely \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"nights \",\n      \"tOffsetMs\": 663,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"there \",\n      \"tOffsetMs\": 1326,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"will \",\n      \"tOffsetMs\": 1989,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"be \",\n      \"tOffsetMs\": 2652,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"talks\",\n      \"tOffsetMs\": 3315,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 150390,\n    \"dDurationMs\": 5450,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 150400,\n    \"dDurationMs\": 12000,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"in \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"those \",\n      \"tOffsetMs\": 674,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"talks \",\n      \"tOffsetMs\": 1348,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"nights \",\n      \"tOffsetMs\": 2022,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"will \",\n      \"tOffsetMs\": 2696,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"change \",\n      \"tOffsetMs\": 3370,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"ever \",\n      \"tOffsetMs\": 4044,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"since\",\n      \"tOffsetMs\": 4718,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 155830,\n    \"dDurationMs\": 6570,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 155840,\n    \"dDurationMs\": 12440,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"my \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"world \",\n      \"tOffsetMs\": 1490,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"has \",\n      \"tOffsetMs\": 2980,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"changed \",\n      \"tOffsetMs\": 4470,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"O\",\n      \"tOffsetMs\": 5960,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 162390,\n    \"dDurationMs\": 5890,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 162400,\n    \"dDurationMs\": 12199,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"my \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"God \",\n      \"tOffsetMs\": 626,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"my \",\n      \"tOffsetMs\": 1252,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"heart \",\n      \"tOffsetMs\": 1878,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"fell \",\n      \"tOffsetMs\": 2504,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"in \",\n      \"tOffsetMs\": 3130,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"love \",\n      \"tOffsetMs\": 3756,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"unaware \",\n      \"tOffsetMs\": 4382,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"of \",\n      \"tOffsetMs\": 5008,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"where\",\n      \"tOffsetMs\": 5634,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 168270,\n    \"dDurationMs\": 6329,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 168280,\n    \"dDurationMs\": 11200,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"I \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"came \",\n      \"tOffsetMs\": 483,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"from \",\n      \"tOffsetMs\": 966,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"O \",\n      \"tOffsetMs\": 1449,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"my \",\n      \"tOffsetMs\": 1932,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"God \",\n      \"tOffsetMs\": 2415,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"my \",\n      \"tOffsetMs\": 2898,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"heart \",\n      \"tOffsetMs\": 3381,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"fell \",\n      \"tOffsetMs\": 3864,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"in \",\n      \"tOffsetMs\": 4347,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"love \",\n      \"tOffsetMs\": 4830,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"do\",\n      \"tOffsetMs\": 5313,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 174589,\n    \"dDurationMs\": 4891,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 174599,\n    \"dDurationMs\": 4881,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"n't \",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"know \",\n      \"tOffsetMs\": 313,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"when \",\n      \"tOffsetMs\": 626,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"this \",\n      \"tOffsetMs\": 939,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"accident \",\n      \"tOffsetMs\": 1252,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"happened \",\n      \"tOffsetMs\": 1565,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \"A\",\n      \"tOffsetMs\": 1878,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 192110,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 192120,\n    \"dDurationMs\": 3000,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\",\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 196000,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 196010,\n    \"dDurationMs\": 3080,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"[Praise]\"\n    } ]\n  } ]\n}\n"
+}

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { api } from '../hooks/useApi.js'
-import './healthbadge.css'
 
 export default function HealthBadge() {
   const [online, setOnline] = useState(null)
@@ -17,16 +16,26 @@ export default function HealthBadge() {
     }
     check()
     const id = setInterval(check, 15000)
-    return () => { active = false; clearInterval(id) }
+    return () => {
+      active = false
+      clearInterval(id)
+    }
   }, [])
 
-  const label = online === null ? 'Checking backend…' : online ? 'Backend online' : 'Backend offline'
-  const cls = online === null ? 'health' : online ? 'health on' : 'health off'
+  const label =
+    online === null ? 'Checking engine…' : online ? 'Engine online' : 'Engine offline'
+
+  const dot =
+    online === null
+      ? 'bg-silver animate-pulse'
+      : online
+        ? 'bg-red-glow shadow-glow-sm'
+        : 'bg-silver/40'
 
   return (
-    <div className={cls}>
-      <span className="health-dot" />
-      <span>{label}</span>
+    <div className="inline-flex items-center gap-2 rounded-full border border-white/5 bg-ink-700/80 px-3.5 py-1.5 text-xs font-medium text-silver backdrop-blur-md">
+      <span className={`h-1.5 w-1.5 rounded-full ${dot}`} />
+      {label}
     </div>
   )
 }

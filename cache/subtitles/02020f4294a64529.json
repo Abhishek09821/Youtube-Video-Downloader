@@ -1,0 +1,176 @@
+{
+  "lines": [
+    {
+      "text": "[संगीत]",
+      "time": "00:00",
+      "start_ms": 840,
+      "end_ms": 8160
+    },
+    {
+      "text": "[प्रशंसा]",
+      "time": "00:05",
+      "start_ms": 5990,
+      "end_ms": 11120
+    },
+    {
+      "text": "आ भी जा",
+      "time": "00:08",
+      "start_ms": 8160,
+      "end_ms": 15000
+    },
+    {
+      "text": "सनम तेरी बाहों",
+      "time": "00:11",
+      "start_ms": 11120,
+      "end_ms": 18840
+    },
+    {
+      "text": "में आ भी जा",
+      "time": "00:15",
+      "start_ms": 15000,
+      "end_ms": 24400
+    },
+    {
+      "text": "सनम तेरी बाहों में",
+      "time": "00:18",
+      "start_ms": 18840,
+      "end_ms": 24400
+    },
+    {
+      "text": "ओ मेरे खुदा",
+      "time": "00:39",
+      "start_ms": 39000,
+      "end_ms": 42840
+    },
+    {
+      "text": "का ओ मेरे खुदा दिल हुआ फिदा बेखबर दो",
+      "time": "00:45",
+      "start_ms": 45719,
+      "end_ms": 58359
+    },
+    {
+      "text": "जहां से मैं हुआ ओ मेरे खुदा दिल हुआ फिदा",
+      "time": "00:52",
+      "start_ms": 52160,
+      "end_ms": 65160
+    },
+    {
+      "text": "हादसा ये जाने कब हुआ ओ मेरे",
+      "time": "00:58",
+      "start_ms": 58359,
+      "end_ms": 65160
+    },
+    {
+      "text": "खुदा भावों में सिर्फ मैं",
+      "time": "01:19",
+      "start_ms": 79840,
+      "end_ms": 87880
+    },
+    {
+      "text": "आऊंगा पलको में मैं तो रह",
+      "time": "01:23",
+      "start_ms": 83920,
+      "end_ms": 93159
+    },
+    {
+      "text": "जाऊंगा यादों में में एक्स होगा मेरा किसी",
+      "time": "01:27",
+      "start_ms": 87880,
+      "end_ms": 99000
+    },
+    {
+      "text": "को मिलेगा नहीं मेरा पता ओ मेरे खुदा दिल",
+      "time": "01:33",
+      "start_ms": 93159,
+      "end_ms": 105399
+    },
+    {
+      "text": "हुआ फिदा बेखबर दो जहां से मैं हुआ ओ मेरे",
+      "time": "01:39",
+      "start_ms": 99000,
+      "end_ms": 111159
+    },
+    {
+      "text": "खुदा दिल हुआ फिदा हादसा ये ना जाने कब",
+      "time": "01:45",
+      "start_ms": 105399,
+      "end_ms": 114159
+    },
+    {
+      "text": "हुआ",
+      "time": "01:51",
+      "start_ms": 111159,
+      "end_ms": 114159
+    },
+    {
+      "text": "आ भी जा सलम यूं ना कर सिम तेरी बाहों में",
+      "time": "02:11",
+      "start_ms": 131000,
+      "end_ms": 142720
+    },
+    {
+      "text": "मर मिटेंगे हम क भी जा सनम यूं ना कर सितम",
+      "time": "02:16",
+      "start_ms": 136840,
+      "end_ms": 145560
+    },
+    {
+      "text": "तेरी बाहों में मर",
+      "time": "02:22",
+      "start_ms": 142720,
+      "end_ms": 150400
+    },
+    {
+      "text": "मिटे तनहा रातों में बातें होंगी",
+      "time": "02:25",
+      "start_ms": 145560,
+      "end_ms": 155840
+    },
+    {
+      "text": "उन बातों में फि रातें होंगी बदला बदला",
+      "time": "02:30",
+      "start_ms": 150400,
+      "end_ms": 162400
+    },
+    {
+      "text": "जमाना सारा जब से बदली मेरी ये दुनिया ओ",
+      "time": "02:35",
+      "start_ms": 155840,
+      "end_ms": 168280
+    },
+    {
+      "text": "मेरे खुदा दिल हुआ फिदा बेखबर दो जहां से",
+      "time": "02:42",
+      "start_ms": 162400,
+      "end_ms": 174599
+    },
+    {
+      "text": "मैं हुआ ओ मेरे खुदा दिल हुआ फिदा हादसा",
+      "time": "02:48",
+      "start_ms": 168280,
+      "end_ms": 179480
+    },
+    {
+      "text": "ये ना जाने कब हुआ",
+      "time": "02:54",
+      "start_ms": 174599,
+      "end_ms": 179480
+    },
+    {
+      "text": "आ",
+      "time": "03:12",
+      "start_ms": 192120,
+      "end_ms": 195120
+    }
+  ],
+  "metadata": {
+    "language": "hi",
+    "source": "youtube_auto",
+    "line_count": 27,
+    "video_id": "MnR5YqU-0GI",
+    "generated_at": "2026-07-10T21:04:14.528214",
+    "duration_seconds": null,
+    "model_used": null
+  },
+  "raw_content": "{\n  \"wireMagic\": \"pb3\",\n  \"pens\": [ {\n  \n  } ],\n  \"wsWinStyles\": [ {\n  \n  }, {\n    \"mhModeHint\": 2,\n    \"juJustifCode\": 0,\n    \"sdScrollDir\": 3\n  } ],\n  \"wpWinPositions\": [ {\n  \n  }, {\n    \"apPoint\": 6,\n    \"ahHorPos\": 20,\n    \"avVerPos\": 100,\n    \"rcRows\": 2,\n    \"ccCols\": 40\n  } ],\n  \"events\": [ {\n    \"tStartMs\": 0,\n    \"dDurationMs\": 199090,\n    \"id\": 1,\n    \"wpWinPosId\": 1,\n    \"wsWinStyleId\": 1\n  }, {\n    \"tStartMs\": 840,\n    \"dDurationMs\": 7320,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"[संगीत]\"\n    } ]\n  }, {\n    \"tStartMs\": 5980,\n    \"dDurationMs\": 2180,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 5990,\n    \"dDurationMs\": 5130,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"[प्रशंसा]\"\n    } ]\n  }, {\n    \"tStartMs\": 8150,\n    \"dDurationMs\": 2970,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 8160,\n    \"dDurationMs\": 6840,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"आ\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" भी\",\n      \"tOffsetMs\": 600,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" जा\",\n      \"tOffsetMs\": 880,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 11110,\n    \"dDurationMs\": 3890,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 11120,\n    \"dDurationMs\": 7720,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"सनम\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" तेरी\",\n      \"tOffsetMs\": 1000,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" बाहों\",\n      \"tOffsetMs\": 1679,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 14990,\n    \"dDurationMs\": 3850,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 15000,\n    \"dDurationMs\": 9400,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"में\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" आ\",\n      \"tOffsetMs\": 1000,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" भी\",\n      \"tOffsetMs\": 1480,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" जा\",\n      \"tOffsetMs\": 1680,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 18830,\n    \"dDurationMs\": 5570,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 18840,\n    \"dDurationMs\": 5560,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"सनम\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" तेरी\",\n      \"tOffsetMs\": 1000,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" बाहों\",\n      \"tOffsetMs\": 1679,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" में\",\n      \"tOffsetMs\": 2560,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 32630,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 32640,\n    \"dDurationMs\": 4299,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"[संगीत]\"\n    } ]\n  }, {\n    \"tStartMs\": 38990,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 39000,\n    \"dDurationMs\": 3840,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"ओ\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" मेरे\",\n      \"tOffsetMs\": 520,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" खुदा\",\n      \"tOffsetMs\": 1160,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 43710,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 43720,\n    \"dDurationMs\": 8440,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"[संगीत]\"\n    } ]\n  }, {\n    \"tStartMs\": 45709,\n    \"dDurationMs\": 6451,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 45719,\n    \"dDurationMs\": 12640,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"का\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" ओ\",\n      \"tOffsetMs\": 1000,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" मेरे\",\n      \"tOffsetMs\": 1441,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" खुदा\",\n      \"tOffsetMs\": 2081,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" दिल\",\n      \"tOffsetMs\": 2801,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" हुआ\",\n      \"tOffsetMs\": 3360,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" फिदा\",\n      \"tOffsetMs\": 4000,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" बेखबर\",\n      \"tOffsetMs\": 4881,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" दो\",\n      \"tOffsetMs\": 5881,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 52150,\n    \"dDurationMs\": 6209,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 52160,\n    \"dDurationMs\": 13000,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"जहां\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" से\",\n      \"tOffsetMs\": 640,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" मैं\",\n      \"tOffsetMs\": 919,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" हुआ\",\n      \"tOffsetMs\": 1399,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" ओ\",\n      \"tOffsetMs\": 2199,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" मेरे\",\n      \"tOffsetMs\": 2680,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" खुदा\",\n      \"tOffsetMs\": 3320,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" दिल\",\n      \"tOffsetMs\": 4039,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" हुआ\",\n      \"tOffsetMs\": 4559,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" फिदा\",\n      \"tOffsetMs\": 5199,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 58349,\n    \"dDurationMs\": 6811,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 58359,\n    \"dDurationMs\": 6801,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"हादसा\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" ये\",\n      \"tOffsetMs\": 1000,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" जाने\",\n      \"tOffsetMs\": 1840,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" कब\",\n      \"tOffsetMs\": 2481,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" हुआ\",\n      \"tOffsetMs\": 2921,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" ओ\",\n      \"tOffsetMs\": 3680,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" मेरे\",\n      \"tOffsetMs\": 4200,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 73510,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 73520,\n    \"dDurationMs\": 3310,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"[संगीत]\"\n    } ]\n  }, {\n    \"tStartMs\": 79830,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 79840,\n    \"dDurationMs\": 8040,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"खुदा\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" भावों\",\n      \"tOffsetMs\": 1279,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" में\",\n      \"tOffsetMs\": 2279,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" सिर्फ\",\n      \"tOffsetMs\": 2639,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" मैं\",\n      \"tOffsetMs\": 3279,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 83910,\n    \"dDurationMs\": 3970,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 83920,\n    \"dDurationMs\": 9239,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"आऊंगा\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" पलको\",\n      \"tOffsetMs\": 1080,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" में\",\n      \"tOffsetMs\": 2080,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" मैं\",\n      \"tOffsetMs\": 2400,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" तो\",\n      \"tOffsetMs\": 2720,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" रह\",\n      \"tOffsetMs\": 3000,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 87870,\n    \"dDurationMs\": 5289,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 87880,\n    \"dDurationMs\": 11120,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"जाऊंगा\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" यादों\",\n      \"tOffsetMs\": 1000,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" में\",\n      \"tOffsetMs\": 1760,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" में\",\n      \"tOffsetMs\": 2080,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" एक्स\",\n      \"tOffsetMs\": 2320,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" होगा\",\n      \"tOffsetMs\": 2960,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" मेरा\",\n      \"tOffsetMs\": 3879,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" किसी\",\n      \"tOffsetMs\": 4879,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 93149,\n    \"dDurationMs\": 5851,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 93159,\n    \"dDurationMs\": 12240,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"को\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" मिलेगा\",\n      \"tOffsetMs\": 280,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" नहीं\",\n      \"tOffsetMs\": 1041,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" मेरा\",\n      \"tOffsetMs\": 1521,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" पता\",\n      \"tOffsetMs\": 2280,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" ओ\",\n      \"tOffsetMs\": 3280,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" मेरे\",\n      \"tOffsetMs\": 3881,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" खुदा\",\n      \"tOffsetMs\": 4681,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" दिल\",\n      \"tOffsetMs\": 5320,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 98990,\n    \"dDurationMs\": 6409,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 99000,\n    \"dDurationMs\": 12159,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"हुआ\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" फिदा\",\n      \"tOffsetMs\": 600,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" बेखबर\",\n      \"tOffsetMs\": 1520,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" दो\",\n      \"tOffsetMs\": 2520,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" जहां\",\n      \"tOffsetMs\": 3079,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" से\",\n      \"tOffsetMs\": 3759,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" मैं\",\n      \"tOffsetMs\": 4040,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" हुआ\",\n      \"tOffsetMs\": 4520,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" ओ\",\n      \"tOffsetMs\": 5200,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" मेरे\",\n      \"tOffsetMs\": 5799,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 105389,\n    \"dDurationMs\": 5770,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 105399,\n    \"dDurationMs\": 8760,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"खुदा\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" दिल\",\n      \"tOffsetMs\": 841,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" हुआ\",\n      \"tOffsetMs\": 1281,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" फिदा\",\n      \"tOffsetMs\": 1881,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" हादसा\",\n      \"tOffsetMs\": 2921,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" ये\",\n      \"tOffsetMs\": 3921,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" ना\",\n      \"tOffsetMs\": 4320,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" जाने\",\n      \"tOffsetMs\": 4641,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" कब\",\n      \"tOffsetMs\": 5320,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 111149,\n    \"dDurationMs\": 3010,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 111159,\n    \"dDurationMs\": 3000,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"हुआ\",\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 123590,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 123600,\n    \"dDurationMs\": 7349,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"[संगीत]\"\n    } ]\n  }, {\n    \"tStartMs\": 130990,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 131000,\n    \"dDurationMs\": 11720,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"आ\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" भी\",\n      \"tOffsetMs\": 640,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" जा\",\n      \"tOffsetMs\": 920,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" सलम\",\n      \"tOffsetMs\": 1319,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" यूं\",\n      \"tOffsetMs\": 2080,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" ना\",\n      \"tOffsetMs\": 2480,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" कर\",\n      \"tOffsetMs\": 2800,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" सिम\",\n      \"tOffsetMs\": 3200,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" तेरी\",\n      \"tOffsetMs\": 3959,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" बाहों\",\n      \"tOffsetMs\": 4879,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" में\",\n      \"tOffsetMs\": 5599,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 136830,\n    \"dDurationMs\": 5890,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 136840,\n    \"dDurationMs\": 8720,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"मर\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" मिटेंगे\",\n      \"tOffsetMs\": 560,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" हम\",\n      \"tOffsetMs\": 1399,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" क\",\n      \"tOffsetMs\": 1800,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" भी\",\n      \"tOffsetMs\": 2479,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" जा\",\n      \"tOffsetMs\": 2720,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" सनम\",\n      \"tOffsetMs\": 3160,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" यूं\",\n      \"tOffsetMs\": 3920,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" ना\",\n      \"tOffsetMs\": 4320,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" कर\",\n      \"tOffsetMs\": 4640,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" सितम\",\n      \"tOffsetMs\": 5039,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 142710,\n    \"dDurationMs\": 2850,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 142720,\n    \"dDurationMs\": 7680,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"तेरी\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" बाहों\",\n      \"tOffsetMs\": 599,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" में\",\n      \"tOffsetMs\": 1519,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" मर\",\n      \"tOffsetMs\": 1720,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 145550,\n    \"dDurationMs\": 4850,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 145560,\n    \"dDurationMs\": 10280,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"मिटे\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" तनहा\",\n      \"tOffsetMs\": 1000,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" रातों\",\n      \"tOffsetMs\": 1880,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" में\",\n      \"tOffsetMs\": 2600,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" बातें\",\n      \"tOffsetMs\": 2880,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" होंगी\",\n      \"tOffsetMs\": 3319,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 150390,\n    \"dDurationMs\": 5450,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 150400,\n    \"dDurationMs\": 12000,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"उन\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" बातों\",\n      \"tOffsetMs\": 400,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" में\",\n      \"tOffsetMs\": 1119,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" फि\",\n      \"tOffsetMs\": 1479,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" रातें\",\n      \"tOffsetMs\": 1839,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" होंगी\",\n      \"tOffsetMs\": 2800,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" बदला\",\n      \"tOffsetMs\": 3800,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" बदला\",\n      \"tOffsetMs\": 4720,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 155830,\n    \"dDurationMs\": 6570,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 155840,\n    \"dDurationMs\": 12440,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"जमाना\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" सारा\",\n      \"tOffsetMs\": 1200,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" जब\",\n      \"tOffsetMs\": 2200,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" से\",\n      \"tOffsetMs\": 2600,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" बदली\",\n      \"tOffsetMs\": 3160,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" मेरी\",\n      \"tOffsetMs\": 3880,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" ये\",\n      \"tOffsetMs\": 4360,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" दुनिया\",\n      \"tOffsetMs\": 4960,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" ओ\",\n      \"tOffsetMs\": 5960,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 162390,\n    \"dDurationMs\": 5890,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 162400,\n    \"dDurationMs\": 12199,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"मेरे\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" खुदा\",\n      \"tOffsetMs\": 600,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" दिल\",\n      \"tOffsetMs\": 1400,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" हुआ\",\n      \"tOffsetMs\": 1880,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" फिदा\",\n      \"tOffsetMs\": 2479,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" बेखबर\",\n      \"tOffsetMs\": 3440,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" दो\",\n      \"tOffsetMs\": 4440,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" जहां\",\n      \"tOffsetMs\": 5000,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" से\",\n      \"tOffsetMs\": 5640,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 168270,\n    \"dDurationMs\": 6329,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 168280,\n    \"dDurationMs\": 11200,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"मैं\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" हुआ\",\n      \"tOffsetMs\": 520,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" ओ\",\n      \"tOffsetMs\": 1239,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" मेरे\",\n      \"tOffsetMs\": 1800,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" खुदा\",\n      \"tOffsetMs\": 2400,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" दिल\",\n      \"tOffsetMs\": 3120,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" हुआ\",\n      \"tOffsetMs\": 3679,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" फिदा\",\n      \"tOffsetMs\": 4319,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" हादसा\",\n      \"tOffsetMs\": 5319,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 174589,\n    \"dDurationMs\": 4891,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 174599,\n    \"dDurationMs\": 4881,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"ये\",\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" ना\",\n      \"tOffsetMs\": 481,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" जाने\",\n      \"tOffsetMs\": 720,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" कब\",\n      \"tOffsetMs\": 1481,\n      \"acAsrConf\": 0\n    }, {\n      \"utf8\": \" हुआ\",\n      \"tOffsetMs\": 1881,\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 192110,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 192120,\n    \"dDurationMs\": 3000,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"आ\",\n      \"acAsrConf\": 0\n    } ]\n  }, {\n    \"tStartMs\": 196000,\n    \"wWinId\": 1,\n    \"aAppend\": 1,\n    \"segs\": [ {\n      \"utf8\": \"\\n\"\n    } ]\n  }, {\n    \"tStartMs\": 196010,\n    \"dDurationMs\": 3080,\n    \"wWinId\": 1,\n    \"segs\": [ {\n      \"utf8\": \"[प्रशंसा]\"\n    } ]\n  } ]\n}\n"
+}
