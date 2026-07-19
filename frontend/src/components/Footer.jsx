@@ -1,16 +1,13 @@
 import { Link } from 'react-router-dom'
+import Logo from './Logo.jsx'
 
 export default function Footer() {
   return (
     <footer className="mt-24 border-t border-white/5 bg-ink-900">
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 md:grid-cols-[1.5fr_1fr_1fr]">
         <div>
-          <span className="flex items-center gap-2 text-lg font-bold">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-red-brand shadow-glow-sm">
-              <svg viewBox="0 0 24 24" className="h-4 w-4 text-white" fill="currentColor" aria-hidden="true">
-                <path d="M9 8.2v5.6a.5.5 0 0 0 .77.42l4.3-2.8a.5.5 0 0 0 0-.84l-4.3-2.8A.5.5 0 0 0 9 8.2Z" />
-              </svg>
-            </span>
+          <span className="flex items-center gap-2.5 font-display text-lg font-bold">
+            <Logo id="footer" size={32} />
             <span>V<span className="text-metallic-red">Down</span></span>
           </span>
           <p className="mt-4 max-w-xs text-sm text-silver">

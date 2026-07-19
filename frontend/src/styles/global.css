@@ -30,57 +30,91 @@
     height: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: #0A0A0C;
+    background: #0a0a0a;
   }
   ::-webkit-scrollbar-thumb {
-    background: #2a2a33;
+    background: #202020;
     border-radius: 8px;
-    border: 2px solid #0A0A0C;
+    border: 2px solid #0a0a0a;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #E50914;
+    background: #ff1e2e;
   }
 }
 
 @layer components {
-  /* Glassmorphic panel */
+  /* Dark glass card — bg-white/5 + blur + soft red border (design token) */
   .glass {
-    @apply bg-ink-700/80 backdrop-blur-md border border-white/5;
+    @apply bg-white/5 backdrop-blur-md;
+    border: 1px solid rgba(255, 30, 46, 0.15);
+  }
+
+  /* Deeper surface panel (inputs, tables) */
+  .surface {
+    @apply bg-ink-800/80 backdrop-blur-md;
+    border: 1px solid rgba(255, 30, 46, 0.12);
   }
 
   /* Subtle circuit-board inspired border */
   .circuit-border {
-    @apply border border-red-glow/20;
-    background-image:
-      linear-gradient(rgba(229, 9, 20, 0.02), rgba(229, 9, 20, 0.02));
+    border: 1px solid rgba(255, 30, 46, 0.15);
+    background-image: linear-gradient(
+      rgba(255, 30, 46, 0.02),
+      rgba(255, 30, 46, 0.02)
+    );
   }
 
-  /* Metallic red/white text */
+  /* Metallic silver text */
   .text-metallic {
-    background: linear-gradient(180deg, #ffffff 0%, #d8d8e0 55%, #a0a0b0 100%);
+    background: linear-gradient(180deg, #ffffff 0%, #cfcfd6 55%, #8f8f9a 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
+  /* Metallic red text */
   .text-metallic-red {
-    background: linear-gradient(180deg, #FF4148 0%, #E50914 55%, #a30810 100%);
+    background: linear-gradient(180deg, #ff5560 0%, #ff1e2e 55%, #9e0018 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
+  /* Primary CTA — solid red, glow reserved for buttons/active/logo */
   .btn-red {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-red-brand px-5 py-2.5
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5
            text-sm font-semibold text-white transition-all duration-200
-           hover:bg-red-glow hover:shadow-glow active:translate-y-px
-           disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:shadow-none;
+           active:translate-y-px disabled:cursor-not-allowed disabled:opacity-40;
+    background-color: #ff1e2e;
+  }
+  .btn-red:hover:not(:disabled) {
+    background-color: #e11d2e;
+    box-shadow: 0 0 15px rgba(255, 30, 46, 0.3);
+  }
+  .btn-red:disabled {
+    box-shadow: none;
   }
 
+  /* Secondary — outlined red */
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-white/10
-           bg-white/5 px-5 py-2.5 text-sm font-semibold text-silver transition-all duration-200
-           hover:border-red-glow/50 hover:text-white active:translate-y-px
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5
+           text-sm font-semibold text-silver transition-all duration-200
+           bg-transparent active:translate-y-px
            disabled:cursor-not-allowed disabled:opacity-40;
+    border: 1px solid rgba(255, 30, 46, 0.4);
+  }
+  .btn-outline:hover:not(:disabled) {
+    @apply text-white;
+    border-color: #ff1e2e;
+    box-shadow: 0 0 12px rgba(255, 30, 46, 0.2);
+  }
+}
+
+/* Respect reduced-motion globally for decorative animations */
+@media (prefers-reduced-motion: reduce) {
+  .animate-breathe,
+  .animate-pulse-glow,
+  .animate-fade-up {
+    animation: none !important;
   }
 }

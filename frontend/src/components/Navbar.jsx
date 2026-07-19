@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { NavLink, Link } from 'react-router-dom'
+import Logo from './Logo.jsx'
 
 const links = [
   { to: '/', label: 'Home', end: true },
@@ -7,18 +8,6 @@ const links = [
   { to: '/features', label: 'Features' },
   { to: '/about', label: 'About' },
 ]
-
-function BrandMark() {
-  return (
-    <span className="relative grid h-9 w-9 place-items-center overflow-hidden rounded-xl bg-gradient-to-br from-red-glow to-red-brand shadow-glow">
-      <span className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.35),transparent_60%)]" />
-      <svg viewBox="0 0 24 24" className="relative h-5 w-5 text-white" fill="none" aria-hidden="true">
-        <path d="M9 8.2v5.6a.5.5 0 0 0 .77.42l4.3-2.8a.5.5 0 0 0 0-.84l-4.3-2.8A.5.5 0 0 0 9 8.2Z" fill="currentColor" />
-        <path d="M12 15.6v3.2M9.4 17.2l2.6 2.4 2.6-2.4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    </span>
-  )
-}
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
@@ -28,8 +17,8 @@ export default function Navbar() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         {/* Brand */}
         <Link to="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
-          <BrandMark />
-          <span className="text-xl font-bold tracking-tight">
+          <Logo id="nav" size={36} className="drop-shadow-[0_0_10px_rgba(255,30,46,0.35)]" />
+          <span className="font-display text-xl font-bold tracking-wide">
             <span className="text-white">V</span>
             <span className="text-metallic-red">Down</span>
           </span>

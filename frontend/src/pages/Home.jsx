@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import Logo from '../components/Logo.jsx'
 
 const stats = [
   { value: '4K', label: 'Max resolution' },
@@ -16,6 +17,9 @@ export default function Home() {
   return (
     <>
       <section className="mx-auto max-w-6xl px-6 pb-16 pt-20 text-center">
+        <div className="mb-8 flex justify-center">
+          <Logo id="hero" size={96} breathe className="drop-shadow-[0_0_24px_rgba(255,30,46,0.35)]" />
+        </div>
         <span className="inline-flex items-center gap-2 rounded-full border border-red-glow/20 bg-red-brand/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-widest text-red-glow">
           Media downloader
         </span>
