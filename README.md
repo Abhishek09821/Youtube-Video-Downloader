@@ -23,15 +23,15 @@ Download Videos, Audio and Subtitles with a clean, fast and responsive interface
 </p>
 
 <p align="center">
-⭐ If you like this project, don't forget to leave a star!
+ If you like this project, don't forget to leave a star!
 </p>
 
 ---
 
 # FEATURES:
 
-- 🎥 Download YouTube Videos
-- 🎵 Extract High Quality Audio
+-  Download YouTube Videos
+-  Extract High Quality Audio
 - Subtitle Preview
 - Multi-language Subtitle Support
 - Fast Download Processing
@@ -58,7 +58,7 @@ Download Videos, Audio and Subtitles with a clean, fast and responsive interface
 
 ---
 
-# 🏗️ Architecture
+#  Architecture
 
 <p align="center">
 <img src="assets/architecture.png" width="100%">
@@ -66,7 +66,7 @@ Download Videos, Audio and Subtitles with a clean, fast and responsive interface
 
 ---
 
-# 🛠️ Tech Stack
+#  Tech Stack
 
 | Frontend | Backend | Download Engine |
 |----------|----------|----------------|
@@ -75,7 +75,7 @@ Download Videos, Audio and Subtitles with a clean, fast and responsive interface
 
 ---
 
-# 📂 Project Structure
+#  Project Structure
 
 ```text
 Youtube-Video-Downloader
@@ -96,7 +96,7 @@ Youtube-Video-Downloader
 
 ---
 
-# ⚙️ Installation
+#  Installation
 
 ### Clone
 
@@ -105,7 +105,7 @@ git clone https://github.com/Abhishek09821/Youtube-Video-Downloader.git
 
 ---
 
-# ⭐ Why this project?
+# Why this project?
 
 - Beautiful Dark Interface
 - Fast Downloads
@@ -121,13 +121,13 @@ git clone https://github.com/Abhishek09821/Youtube-Video-Downloader.git
 - ✅ Video Download
 - ✅ Audio Download
 - ✅ Subtitle Preview
-- 🔜 Playlist Support
-- 🔜 Download Queue
-- 🔜 Docker Support
+- (soon) Playlist Support
+- (soon) Download Queue
+- (soon) Docker Support
 
 ---
 
-# 🤝 Contributing
+# Contributing
 
 Contributions are welcome!
 
@@ -139,7 +139,7 @@ Contributions are welcome!
 
 ---
 
-# 📄 License
+#  License
 
 Apache 2.0 License
 
@@ -149,6 +149,6 @@ Apache 2.0 License
 
 ## ⭐ Star this Repository
 
-Made with ❤️ by **Abhishek**
+Made by **Abhishek**
 
 </div>
